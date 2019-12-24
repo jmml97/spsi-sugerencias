@@ -4,4 +4,4 @@ Observaciones realizadas por el profesor sobre contenidos básicos de la asignat
 
 ## Compilación
 
-Compilar utilizando `lualatex`.
+Requiere `texlive-2018` o superior. Compilar utilizando `lualatex`.
