@@ -154,11 +154,64 @@
 \end{flushleft}
 
 \begin{ejer}
-  Enunciado.
+  Cifrado de Vigenere.
 \end{ejer}
 
 \begin{sol}
-  Solución.
+  El cifrado de vigenere consiste en una clave $\alpha\in exp(\mathcal{A})^*$ y sendas funciones $E_\alpha$ y $D_\alpha$, para encriptar y desencriptar respectivamente. Podemos definir $E_\alpha: exp(\mathcal{A})^* \to exp(\mathcal{A})^*$ como:
+
+  $$ E_\alpha (s) = <f^{-1}( (f(s_j) + f(\alpha^len(s))_j) mod n)>_j$$
+
+  Teniendo en cuenta que:
+  \begin{itemize}
+  \item $f$ es la inyección que asigna a cada letra un entero.
+  \item Consideramos $\alpha^len(s)$ para tener claro que existe una letra en la posición $j$. Es decir en verdad solo estamos repitiendo muchas veces la clave (sea $\alpha$ = HOLA, pues $\alpha^3=$HOLAHOLAHOLA).
+  \item $<>_j$ representa que es una palabra.
+  \item $n$ es el cardinal del alfabeto empleado.
+  \end{itemize}
+
+  De modo análogo se define $E_\alpha: exp(\mathcal{A})^* \to exp(\mathcal{A})^*$ como:
+  $$ D_\alpha (s) = <f^{-1}( (f(s_j) - f(\alpha^len(s))_j) mod n)>_j$$
+
+  Se puede comprobar fácil que $D$ es la inversa de $E$ por izquierda y derecha.
+
+  Como último queda un resultado útil para ver que en realidad ambas funcione son solo un mismo sistema con diferente clave.
+
+  Sea $\alpha$ una clave, entonces definiendo $\alpha' = <(-\alpha_j) mod n >_j$
 \end{sol}
+
+
+
+\begin{ejer}
+  Explicar la transformación SubBytes() que es parte del algoritmo simétrico de cifrado AES.
+\end{ejer}
+
+\begin{ejer}
+  Limitaciones de los sistemas simétricos de cifrado en la comunicación y cómo la criptografíade clave pública los ha resuelto.
+\end{ejer}
+
+\begin{ejer}
+  Explicar los fundamentos de la criptografía de clave pública y las líneas fundamentales de lafirma a través de la misma.
+\end{ejer}
+
+\begin{ejer}
+  Enumerar resumidamente las precauciones más destacables a tomar al generar un cículo decomunicación basado en RSA.
+\end{ejer}
+
+\begin{ejer}
+  Protocolo de intercambio de llaves según el esquema de Diffie-Hellman y explicación de susupuesta fortaleza.
+\end{ejer}
+
+\begin{ejer}
+  Explicación del criptosistema de ElGamal.
+\end{ejer}
+
+\begin{ejer}
+  Explicación del algoritmo de firma estándar (DSA).
+\end{ejer}
+
+\begin{ejer}
+  Rasgos esenciales de SSH: cifrado, funcionamiento, negociación de cifrado para la sesión yautenticación del acceso del usuario al servidor
+\end{ejer}
 
 \end{document}
