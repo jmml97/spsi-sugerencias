@@ -1,0 +1,164 @@
+% archivo:    spsi.sugerencias.tex
+% asignatura: Seguridad y Protección de Sistemas Informáticos
+\documentclass[
+  a4paper,
+  spanish,
+  12pt,
+]{scrartcl}
+
+\linespread{1.1}
+
+
+%-------------------------------------------------------------------------------
+%	PAQUETES
+%-------------------------------------------------------------------------------
+
+% Idioma
+
+\usepackage[es-noindentfirst, es-tabla]{babel}
+
+% Citas de texto en línea/bloque
+
+\usepackage[autostyle]{csquotes}
+
+% Matemáticas
+
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{mathtools}
+\usepackage{commath}
+\usepackage{xfrac}
+
+% Fuentes personalizadas para utilizar con XeLaTeX o LuaLaTeX
+
+\usepackage[no-math]{fontspec}
+\setmainfont{Libertinus Serif}
+\setsansfont{Libertinus Sans}
+\setmonofont{Libertinus Mono}
+
+\usepackage[math-style=TeX]{unicode-math}
+\setmathfont{Libertinus Math}
+
+
+% Configuración de microtype
+
+\defaultfontfeatures{Ligatures=TeX,Numbers=Lining}
+\usepackage[activate={true,nocompatibility},final,tracking=true,factor=1100,stretch=10,shrink=10]{microtype}
+\SetTracking{encoding={*}, shape=sc}{0}
+
+% Enlaces y colores
+
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+  colorlinks=true,
+  citecolor=,
+  linkcolor=,
+  urlcolor=blue,
+}
+
+% Otros elementos de página
+
+\usepackage{enumitem}
+%\setlist[itemize]{leftmargin=*}
+%\setlist[enumerate]{leftmargin=*}
+
+\usepackage[labelfont=sc]{caption}
+
+\usepackage{booktabs}
+\renewcommand\arraystretch{1.5}
+
+% Tikz
+
+\usepackage{tikz}
+\usetikzlibrary{babel}
+\usepackage{float}
+
+% Números con círculos
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+% Código
+
+\usepackage{listings}
+\lstset{
+	basicstyle=\ttfamily,%
+	breaklines=true,%
+	captionpos=b,                    % sets the caption-position to bottom
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  frame=lines,
+  numbers=left,
+  stepnumber=1,
+  aboveskip=12pt,
+  showstringspaces=false,
+  keywordstyle=\bfseries,
+  commentstyle=\itshape,
+  columns=flexible,
+}
+%\renewcommand{\lstlistingname}{Listado}
+
+% ENTORNOS
+
+\newtheoremstyle{ejercicio-style}  % Nombre del estilo
+{2\topsep}                                  % Espacio por encima
+{1.5\topsep}                                  % Espacio por debajo
+{\itshape}                                  % Fuente del cuerpo
+{0pt}                                  % Identación
+{\scshape}                      % Fuente para la cabecera
+{.}                                 % Puntuación tras la cabecera
+{5pt plus 1pt minus 1pt}                              % Espacio tras la cabecera
+{{\thmname{#1}\thmnumber{ #2}}\thmnote{ (#3)}}  % Especificación de la cabecera
+
+\newtheoremstyle{remark-style}
+{-\topsep}                                  % Espacio por encima
+{2\topsep}                                  % Espacio por debajo
+{}                                  % Fuente del cuerpo
+{0pt}                                  % Identación
+{\itshape}
+{.}
+{5pt plus 1pt minus 1pt}                              % Espacio tras la cabecera
+{}
+
+% Ejercicios y solución
+\theoremstyle{ejercicio-style}
+\newtheorem{ejer}{Ejercicio}
+
+\theoremstyle{remark-style}
+\newtheorem*{sol}{Solución}
+
+
+% Márgenes
+\usepackage[bottom=3.125cm, top=2.5cm, left=3.5cm, right=3.5cm, marginparwidth=70pt]{geometry}
+
+\usepackage{hyphenat}
+
+%-------------------------------------------------------------------------------
+%	CONTENIDO
+%-------------------------------------------------------------------------------
+
+\begin{document}
+
+\begin{flushright}
+  LibreIM\vspace{.5em}
+
+  \textit{Seguridad y Protección de Sistemas Informáticos}
+
+  Grado en Ingeniería Informática
+
+  \textsc{Universidad de Granada}\vspace{.5em}
+
+  \today\vspace{.5em}
+\end{flushright}
+
+\begin{flushleft}
+  \scshape\Large Observaciones para el examen.
+\end{flushleft}
+
+\begin{ejer}
+  Enunciado.
+\end{ejer}
+
+\begin{sol}
+  Solución.
+\end{sol}
+
+\end{document}
