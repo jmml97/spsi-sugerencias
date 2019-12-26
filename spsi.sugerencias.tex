@@ -198,20 +198,27 @@ $\mathcal{A}$ será un alfabeto (conjunto finito no vacío de símbolos).
   Explicar la transformación \texttt{SubBytes()} que es parte del algoritmo simétrico de cifrado AES.
 \end{ejer}
 
-El algoritmo de cifrado de AES realiza en cada ronda una serie de transformaciones a nivel de bytes. La primera de estas transformaciones es \texttt{SubBytes()} que consiste en sustituir los bytes del estado según una tabla de sustitución, llamada S-box. Así, la sustitución se hace de forma no lineal y sin que unos bytes afecten a la transformación de otros.
+El algoritmo de cifrado de AES realiza en cada ronda una serie de transformaciones a nivel de bytes. La primera de estas transformaciones es \texttt{SubBytes()}, que consiste en sustituir los bytes del estado según una tabla de sustitución, llamada S-box. Así, la sustitución se hace de forma no lineal e independiente.
 
-La tabla de sustitución es una matriz (no simétrica) que contiene en cada posición una ¿palabra? (en hexadecimal). La construcción de la tabla se realiza de la siguiente forma, dada una entrada $xy$:
+La tabla de sustitución es una matriz (no simétrica) que contiene en cada posición un byte (en hexadecimal). La construcción de la tabla se realiza de la siguiente forma, dada una entrada $xy$:
 
 \begin{enumerate}
-\item Si $xy = 00$, se mantiene igual. Si $xy \neq 00$, se calcula el inverso de $xy$ en GF($2^8$), que será 
+\item Si $xy = 00$, se mantiene igual. Si $xy \neq 00$, se calcula el inverso de $xy$ en GF($2^8$), que será otro byte $b = b_7\dots b_0$.
+\item El bit $i$-ésimo del byte $b$, $b_i$, se transformará en $b_i'$ de la siguiente forma:
+  \[b_i' = b_i + b_{(i+4)\bmod 8} + b_{(i+5)\bmod 8} + b_{(i+6)\bmod 8} + + b_{(i+7)\bmod 8} + c_i,
+  \]
+  donde $c_i$ es el $i$-ésimo bit del byte \{63\} o \{01100011\} para todo $0 \leq i \le 8$. El byte $b'$ resultante ocupará la posición $(x,y)$ de la tabla.
+
+%  Esta transformación tiene la siguiente expresión matricial:
+
 \end{enumerate}
 
 \begin{ejer}
-  Limitaciones de los sistemas simétricos de cifrado en la comunicación y cómo la criptografíade clave pública los ha resuelto.
+  Limitaciones de los sistemas simétricos de cifrado en la comunicación y cómo la criptografía de clave pública los ha resuelto.
 \end{ejer}
 
 \begin{ejer}
-  Explicar los fundamentos de la criptografía de clave pública y las líneas fundamentales de lafirma a través de la misma.
+  Explicar los fundamentos de la criptografía de clave pública y las líneas fundamentales de la firma a través de la misma.
 \end{ejer}
 
 \begin{ejer}
