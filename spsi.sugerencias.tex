@@ -251,6 +251,23 @@ A raiz de esto, necesitamos un nuevo criptosistema que satisfaga: autenticación
   Enumerar resumidamente las precauciones más destacables a tomar al generar un cículo de comunicación basado en RSA.
 \end{ejer}
 
+\begin{sol}
+  \begin{enumerate}
+    \item El número n debe superar (a comienzos del siglo XXI) los 308 dígitos. Un número con menos dígitos es factible su factorización.
+    \item El número n debe tener exactamente dos factores primos y estos deben ser elevados para que sea difícil aplicar la criba de Erastótenes.
+    \item Los factores primos de n jamás deben ser elegidos de entre una lista de primos famosos, ya que podrían usarse estas listas en la factorización.
+    \item Los factores primos de n no deben ser próximos el uno al otro. De lo contrario puede ser fácil la factorización mediante el método de Fermat.
+    \item Si los factores primos de n son p y q, (p-1, q-1) no debe ser elevado en exceso y nunca debe ocurrir que p-1|q-1. Si (p-1, q-1) es muy elevado sería fácil encontrar [p-1,q-1] por fuerza bruta. En el caso extremo en que se cumpla p-1|q-1 basta con buscar inversos módulos q-1 probando con distintos candidatos a q-1.
+    \item Es indiseable en n que los factores primos de $\varphi(n)$ sean deamsiado pequeños. En dicho caso podría realizarse un ataque que consistiera en construir un amplio número de candidatos a ser $\varphi(n)$.
+    \item Es deseable que los factores primos de n sean primos seguros, evitándose así los dos problemas anteriores.
+    \item n debe ser elevado y tanto p-1 como q-1 deben tener factores primos elevados para evitar ataques de cifrados iterados.
+    \item d debe ser elevado y ésta es la razón de comenzar eligiéndolo para luego determinar e. Así se evita que sea encontrado mediante procedimientos de prueba y error.
+    \item No es recomendable tener valores pequeños de e y, en caso de tenerlo, jamás debe ser elegido por varios integrantes de un mismo círculo RSA. De lo contrario si se enviara un mismo mensaje a estos integrantes se podría, aplicando el teorema chino del resto, obtener el mensaje.
+    \item Cuidarse de mensajes inocultables. Existen mensajes para determinadas claves cuyo cifrado es igual al mensaje original.
+
+  \end{enumerate}
+\end{sol}
+
 \begin{ejer}
   Protocolo de intercambio de llaves según el esquema de Diffie-Hellman y explicación de su supuesta fortaleza.
 \end{ejer}
