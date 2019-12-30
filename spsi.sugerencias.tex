@@ -198,6 +198,7 @@ $\mathcal{A}$ será un alfabeto (conjunto finito no vacío de símbolos).
   Explicar la transformación \texttt{SubBytes()} que es parte del algoritmo simétrico de cifrado AES.
 \end{ejer}
 
+\begin{sol}
 El algoritmo de cifrado de AES realiza en cada ronda una serie de transformaciones a nivel de bytes. La primera de estas transformaciones es \texttt{SubBytes()}, que consiste en sustituir los bytes del estado según una tabla de sustitución, llamada S-box. Así, la sustitución se hace de forma no lineal e independiente.
 
 La tabla de sustitución es una matriz (no simétrica) que contiene en cada posición un byte (en hexadecimal). La construcción de la tabla se realiza de la siguiente forma, dada una entrada $xy$:
@@ -212,10 +213,35 @@ La tabla de sustitución es una matriz (no simétrica) que contiene en cada posi
 %  Esta transformación tiene la siguiente expresión matricial:
 
 \end{enumerate}
+\end{sol}
 
 \begin{ejer}
   Limitaciones de los sistemas simétricos de cifrado en la comunicación y cómo la criptografía de clave pública los ha resuelto.
 \end{ejer}
+
+\begin{sol}
+  En la criptosistemas de clave simétrica, emisor y receptor acuerdan una clave $k$ que marca como funiconaran las funciones $E_k$ y $D_k$, y cualquier persona que tenga esta clave puede entrar en la comunicación.
+
+  Esto conlleva diferentes problemas:
+  \begin{itemize}
+  \item El intercambio inicial de la clave se tiene que hacer de algún modo seguro antes de poder establecer el canal seguro. Esto es uno de los mayores problemas de la criptografía clásica. Si bien, se pudieron vadear en un inicio por medios militares y personas de confianza, esto se hace imposible cuando, por ejemplo, estamos hablando de encriptar transacciones comerciales donde los involucrados son completos desconocidos. Además el coste de este intercambio es demasiado alto considerando la posibilidad de que no se vuelva a necesitar nunca más el canal.
+  \item Cuando consideramos una red de usuarios, hemos de tener una clave para cada par de usuarios para tener máxima seguridad. Esto hace que tengamos un ratio de crecimiento del número de claves cuadrático en relación al tamaño de la red. Claramente no es un sistema escalable. Por ejemplo,con 10 usuarios necesitamos 45 claves diferentes y con 100 usuarios necesitaramos 4950 claves.
+
+    Por este motivo no es fácil añadir un usuario a la red y actualizar la base de datos. Este gran número de claves es también un problema de seguridad al ser necesario que cada usuario guarde sus claves.
+
+  \item Estos sistemas también adolecen de falta de crédito, ya que ambos usuarios tienen la misma clave en cada pareja emisor receptor.
+
+    Si Alice y Bob comparten una clave secreta y se da que Carol la descubre, esta puede interceptar los mensajes de Alice a Bob y modificarlos sin que Bob lo descubra. También es posible que Bob envíe mensajes falsos y después se encubra en esta posibilidad para exhimirse de las culpas.
+  \end{itemize}
+
+  A raiz de esto, necesitamos un nuevo criptosistema que satisfaga: autenticación, integridad y no repudiabilidad. El criptosistema de clave pública soluciona estos problemas:
+  \begin{itemize}
+  \item Al tener una función E pública y una D privada deja de haber problema con el intercambio de claves en un canal seguro, dado que este intercambio inicial no se produce.
+  \item Solo se mantienen dos claves por usuario del círculo, lo que es mucho más clave. Más aun, en la base de datos solo se guarda la clave pública de cada usuario.
+
+  \item Se implementa un sistema de autenticación y no repudio del siguiente modo: Como $E$ y $D$ son biyecciones e inversas. Sean $A = \{ E_a, D_a \}$  las funciones de Alice y  $B = \{ E_b, D_b \}$ las funciones de Bob. Para que Alice envíe un mesaje a Bob encripta el mensaje $m$ con $E_b(D_a(m))$. Cuando Bob lo recibe, primeramente lo desencipta con su función privada, y posteriormente para comprobar que efectivamente es de Alice lo desemcripta con su función pública. Así se sabe que es de Alice y solo puede ser suyo pues es la única que posee la función inversa de $E_a$.
+  \end{itemize}
+\end{sol}
 
 \begin{ejer}
   Explicar los fundamentos de la criptografía de clave pública y las líneas fundamentales de la firma a través de la misma.
