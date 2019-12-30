@@ -118,12 +118,25 @@
 {5pt plus 1pt minus 1pt}                              % Espacio tras la cabecera
 {}
 
+\newtheoremstyle{teorema-style}  % Nombre del estilo
+{1\topsep}                                  % Espacio por encima
+{1\topsep}                                  % Espacio por debajo
+{\itshape}                                  % Fuente del cuerpo
+{0pt}                                  % Identación
+{\bfseries}                      % Fuente para la cabecera
+{.}                                 % Puntuación tras la cabecera
+{5pt plus 1pt minus 1pt}                              % Espacio tras la cabecera
+{{\thmname{#1}\thmnumber{ #2}}\thmnote{ (#3)}}  % Especificación de la cabecera
+
 % Ejercicios y solución
 \theoremstyle{ejercicio-style}
-\newtheorem{ejer}{Ejercicio}
+\newtheorem{ejer}{Cuestión}
 
 \theoremstyle{remark-style}
-\newtheorem*{sol}{Solución}
+\newtheorem*{sol}{Respuesta}
+
+\theoremstyle{teorema-style}
+\newtheorem*{nth}{Teorema}
 
 
 % Márgenes
@@ -150,49 +163,50 @@
 \end{flushright}
 
 \begin{flushleft}
-  \scshape\Large Observaciones para el examen.
+  \scshape\Large Sugerencias para el examen
 \end{flushleft}
 
-NOTACIÓN:
-$\mathcal{A}$ será un alfabeto (conjunto finito no vacío de símbolos).
+Fijamos a continuación la notación que seguiremos en este documento.
+\begin{itemize}
+\item Denotamos por $\omega$ al primer \href{https://en.wikipedia.org/wiki/Ordinal_number}{ordinal} infinito, cuya cardinalidad coincide con la de $\mathbb{N}$. Podemos entenderlo como una forma de \textquote{ordenar} los números naturales, es decir, $\omega = \{0,1,2, \dots \}$. Dado $n \in \omega^\ast := \omega - \{0\}$, se tiene que $n = \{0, 1, \dots, n-1\}$, que identificamos cuando sea preciso con el número natural $n$.
+\item $\mathcal{A}$ será un alfabeto: un conjunto finito no vacío de símbolos. El conjunto de expresiones o palabras que podemos formar por yuxtaposición de símbolos de $\mathcal{A}$ lo denotaremos como $exp(\mathcal{A})$, es decir, \[ exp(\mathcal{A}) = \bigcup_{k \in \omega} \mathcal{A}^k,\] donde $\mathcal{A}^0 = \{\varepsilon\}$ (la palabra vacía) y $\mathcal{A}^k = \mathcal{A}^{k-1}\mathcal{A}$ para $k > 0$. Reservaremos la notación $\exp(\mathcal{A})^\ast$ para indicar que no se admite la palabra vacía.
+\item Dado $s \in exp(\mathcal{A})$, existirá $k \in \omega$ tal que $s \in \mathcal{A}^k$, es decir, $s = s_1s_2\cdots s_k$ con $s_i \in \mathcal{A}$ para todo $i$. Denotamos $s = \langle s_j \rangle_{j \in k}$, y entonces $k$ será la \textit{longitud} de $s$, denotada por $len(s)$. Cuando la longitud de la palabra no sea relevante, escribiremos simplemente $s = \langle s_j \rangle_{j}$.
+\item En ocasiones será necesario poner en correspondencia los símbolos del alfabeto con números naturales. Si $\mathcal{A}$ es un alfabeto de $n \in \omega^\ast$ símbolos, consideraremos fijada una función biyectiva $f: \mathcal{A} \to n$. De esta forma, si $s \in exp(\mathcal{A})$ nos referiremos a $f(s)$ como $\langle f(s_j) \rangle_j$.
+\item Un \textit{criptosistema} será una terna $\langle \mathcal{A}, E, D \rangle$, donde $\mathcal{A}$ es un alfabeto y $E$ (resp. $D$) es una aplicación de $exp(\mathcal{A})$ en $exp(\mathcal{A})$, de forma que $D \circ E$ sea la identidad en $exp(\mathcal{A})$. Nos referiremos a los elementos de $\exp(\mathcal{A})$ como \textit{texto plano} cuando los veamos como argumentos de $E$ (función de cifrado) y como \textit{texto cifrado} cuando los veamos como argumentos de $D$ (función de descifrado). Es usual que las funciones de cifrado y descifrado dependan de un parámetro llamado \textit{clave}, que en general no tiene que coincidir para las dos. Esta situación la denotamos como $E_{k_e}$ y $D_{k_d}$.
+\end{itemize}
+
+\newpage
 
 \begin{ejer}
   Cifrado de Vigenère.
 \end{ejer}
 
 \begin{sol}
-  El cifrado de Vigenère consiste en una clave $\alpha\in \exp (\mathcal{A})^*$ y sendas funciones $E_\alpha$ y $D_\alpha$, para cifrar y descifrar respectivamente. Podemos definir $E_\alpha: \exp (\mathcal{A})^* \to \exp (\mathcal{A})^*$ como:
-\[ E_\alpha (s) = \langle f^{-1}( (f(s_j) + f(\alpha^{len(s)})_j) \bmod  n)\rangle _j. \]
+  Dado $n \in \omega^\ast$ y $\mathcal{A}}$ un alfabeto de $n$ símbolos, el cifrado de Vigenère es un criptosistema polialfabético que consiste en una clave $\alpha\in \exp (\mathcal{A})^*$ y sendas funciones $E_\alpha$ y $D_\alpha$ para cifrar y descifrar respectivamente. Podemos definir la función $E_\alpha: \exp (\mathcal{A})^* \to \exp (\mathcal{A})^*$ como
+\[ E_\alpha (s) = \langle f^{-1}( (f(s_j) + f((\alpha^{len(s)})_j)) \bmod  n)\rangle _j, \]
+donde $s = \langle s_j \rangle_j$ y la expresión $\alpha^{len(s)}$ es la yuxtaposición de la expresión $\alpha$ consigo misma y eventual truncamiento final hasta conseguir una palabra con la misma longitud que $s$. Hacemos esto para asegurar la existencia de una letra en cada posición $j \in len(s)$ de $\alpha$. Por ejemplo, si $\alpha = HOLA$ entonces $\alpha^{10}$ = HOLAHOLAHO. De modo análogo se define $D_\alpha: \exp (\mathcal{A})^* \to \exp (\mathcal{A})^*$ como:
+ \[D_\alpha (s) = \langle f^{-1}( (f(s_j) - f((\alpha^{len(s)})_j)) \bmod  n)\rangle _j.\]
 
-  Teniendo en cuenta que:
-  \begin{itemize}
-  \item $f$ es la inyección que asigna a cada letra un entero.
-  \item Consideramos $\alpha^{len(s)}$ para asegurar la existencia de una letra en la posición $j$. Es decir, estamos repitiendo la clave hasta alcanzar la longitud de la palabra $s$ (truncando si hace falta). Por ejemplo, si $\alpha$ = HOLA, entonces $\alpha^3=$HOLAHOLAHOLA.
-  \item $\langle \rangle _j$ representa que es una palabra.
-  \item $n$ es el cardinal del alfabeto empleado.
-  \end{itemize}
-
-  De modo análogo se define $D_\alpha: \exp (\mathcal{A})^* \to \exp (\mathcal{A})^*$ como:
- \[D_\alpha (s) = \langle f^{-1}( (f(s_j) - f(\alpha^{len(s)})_j) \bmod  n)\rangle _j.\]
-
- Veamos que $D_\alpha \circ E_\alpha = 1_{\exp(A)^*}$. Consideramos $s=\langle s_j \rangle _j$ una expresión de $\exp(A)^*$. Entonces:
-
+  Se comprueba que efectivamente la terna $\langle \mathcal{A}, E_\alpha, D_\alpha \rangle$ es un criptosistema, es decir,  $D_\alpha \circ E_\alpha = 1_{\exp(\mathcal A)^*}$. En efecto, si $s=\langle s_j \rangle _j \in \exp(\mathcal A)^*$, se tiene que:
 \begin{align*}
-  D_\alpha(E_\alpha(s)) &= D_\alpha(\langle f^{-1}( (f(s_j) + f(\alpha^{len(s)})_j) \bmod  n)\rangle _j)\\
-  &= \langle f^{-1}((f(f^{-1}( (f(s_j) + f((\alpha^{len(s)})_j)) \bmod  n)) - f(\alpha^{len(s)})_j) \bmod  n)\rangle _j\\
-  &= \langle f^{-1}(( (f(s_j) + f((\alpha^{len(s)})_j) \bmod  n) - f(\alpha^{len(s)})_j) \bmod  n)\rangle _j\\
+  D_\alpha(E_\alpha(s)) &= D_\alpha(\langle f^{-1}( (f(s_j) + f((\alpha^{len(s)})_j)) \bmod  n)\rangle _j)\\
+  &= \langle f^{-1}((f(f^{-1}( (f(s_j) + f((\alpha^{len(s)})_j)) \bmod  n)) - f((\alpha^{len(s)})_j)) \bmod  n)\rangle _j\\
+  &= \langle f^{-1}(( (f(s_j) + f((\alpha^{len(s)})_j)) \bmod  n) - f((\alpha^{len(s)})_j)) \bmod  n)\rangle _j\\
   &= \langle f^{-1}(f(s_j)\bmod  n)\rangle _j\\
   &= \langle f^{-1}(f(s_j))\rangle _j\\
   &= \langle s_j\rangle _j\\
   &= s.
 \end{align*}
 
+  Por último, enunciamos un resultado que nos dice que en realidad ambas funciones son la misma salvo un cambio de clave.
 
-  Por último, queda un resultado útil para ver que en realidad ambas funciones son la misma con diferente clave.
+\begin{nth}
+      Si $\alpha = \langle \alpha_j \rangle_j$ es una clave de Vigenère, definiendo $\alpha' = \langle (-\alpha_j) \bmod  n \rangle _j$ tenemos que $D_\alpha = E_{\alpha'}$.
+\end{nth}
 
-  Sea $\alpha$ una clave, entonces definiendo $\alpha' = \langle (-\alpha_j) \bmod  n \rangle _j$ tenemos que $E_{\alpha'} = D_\alpha$.
+
+La principal debilidad del cifrado Vigenère es la naturaleza repetitiva de su clave. Si un criptoanalista adivina correctamente la longitud de la clave, el texto cifrado puede tratarse como cifrados entrelazados de César, que pueden romperse fácilmente de forma individual.
 \end{sol}
-
 
 \begin{ejer}
   Explicar la transformación \texttt{SubBytes()} que es parte del algoritmo simétrico de cifrado AES.
