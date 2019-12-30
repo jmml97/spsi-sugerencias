@@ -270,8 +270,36 @@ A raiz de esto, necesitamos un nuevo criptosistema que satisfaga: autenticación
 \end{ejer}
 
 \begin{ejer}
-  Explicación del criptosistema de ElGamal.
+  El criptosistema de ElGamal.
 \end{ejer}
+
+\begin{sol}
+El criptosistema de ElGamal es un criptosistema de clave pública propuesto por Tahir ElGamal en 1985. Está basado en el protocolo de intercambio de claves de Diffie-Hellman.
+
+\subsubsection*{Preliminares}
+
+En primer lugar, se debe elegir un primo $p$ elevado y un elemento primitivo $g \in GF(p)^\ast$. Suponemos que las unidades de texto llano estarán expresadas en números de $GF(p)$, y llamamos $q = |GF(p)|^\ast = p -1$. Ahora, cada usuario elige aleatoriamente un valor $x$ con $0 < x < q$, que será su clave privada. La clave pública será $y = g^x \bmod p$.
+
+\subsubsection*{Cifrando el mensaje}
+
+Supongamos que Alice quiere compartir con Bob un mensaje \(0\leq m \leq q\). Para ello, recoge la clave pública de Bob ($y_B$), y calcula $K = y_B ^{x_A} \bmod p$, donde $x_A$ es su clave privada. Finalmente envía a Bob la pareja \(c = \langle y_{A}, mK_{AB} \rangle\), donde \(y_{A} = g^{x_{A}} \bmod{q}\).
+\subsubsection*{Descifrando el mensaje}
+
+Cuando \textbf{Bob} recibe el mensaje de \textbf{Alice} tiene una pareja de números $c = \langle c_1, c_2 \rangle$ menores que \(q\). El primero de ellos lo eleva a su número secreto \(c_{1}^{x_{B}} = (g^{x_{A}})^{x_{B}} = K_{AB} \bmod {q}$. Como estamos en el grupo de las unidades, todos los elementos son invertibles, así que con el algoritmo extendido de Euclides calcula un inverso de \(K_{AB}\) módulo \(q\) y multiplica la segunda componente del mensaje cifrado por dicho inverso \(c_{2}K_{AB}^{-1} = (mK_{AB})K_{AB}^{-1} = m\), lo que le permite recuperar el mensaje de \textbf{Alice}.
+
+\subsubsection*{Vulnerabilidades}
+
+Como vemos, en este esquema al enviar cada mensaje \textbf{Alice} debe elegir un número secreto \(x_{A}\) \textbf{distinto}. Esto se debe a que si un atacante supiera el contenido de un primer mensaje \(m_{1}\) podría calcular el contenido de las porciones siguientes de la siguiente forma.
+
+Sean
+\begin{align*}
+c_{11}\equiv g^{x_{A}} \bmod{p}, \quad& c_{21}\equiv m_{1}K\bmod{p}, \\
+c_{12}\equiv g^{x_{A}} \bmod{p}, \quad& c_{22}\equiv m_{2}K\bmod{p}.
+\end{align*}
+Entonces es fácil calcular \(m_2m_1^{-1}\equiv c_{22}c_{21}^{-1} \bmod{p}\), de donde se deriva inmediatamente \(m_{2}\) (multiplicando por \(m_{1}\)).  \\
+
+La seguridad de este criptosistema reside en la dificultad de cálculo del logaritmo discreto, por lo que es imprescindible tomar las precauciones necesarias para que no sea fácil calcular dicho logaritmo. A saber, necesitamos que el orden del grupo de las unidades $q = p-1$ no contenga factores primos muy pequeños. Para ello podemos elegir un primo fuerte $p$ como generador del anillo $\mathbb{Z}_p$.
+\end{sol}
 
 \begin{ejer}
   Explicación del algoritmo de firma estándar (DSA).
