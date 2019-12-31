@@ -336,7 +336,7 @@ La seguridad de este criptosistema reside en la dificultad de cálculo del logar
   Para generar las claves de firma, Alice realiza los siguientes pasos:
 
   \begin{enumerate}
-    \item Elige un primo $q$ de aproximadamente 160 bits, utilizando para ello un generador de números y uno o varios tests de primalidad.
+    \item Elige un primo $q$ de aproximadamente 160 bits, utilizando para ello un generador aleatorio de números y uno o varios tests de primalidad.
     \item Elige un nuevo primo $p$ congruente con $1$ módulo $q$, con aproximadamente 512 bits.
     \item Elige $g_0$ con $1 < g_0 < p-1$ y tal que $g_0 ^{p-1/q} \not\equiv 1 \bmod p$. Llamamos $g$ al valor  $g_0 ^{p-1/q} \bmod p$. Si $g=1$ elige un nuevo valor de $g_0$ y lo vuelve a intentar.
     \item Se elige un entero $x$ aleatoriamente cumpliendo $0 < x < q$, que será la clave secreta. La clave pública será $y = g^x \bmod p$.
