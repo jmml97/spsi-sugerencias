@@ -248,7 +248,7 @@ Es por esto que no es fácil añadir un usuario a la red, pues es preciso actual
 \item Estos sistemas también adolecen de falta de crédito, ya que cualquier persona que obtenga la clave compartida por dos usuarios puede formar parte de la comunicación. Si Alice y Bob comparten una clave secreta y se da que Carol la descubre, esta puede interceptar los mensajes de Alice a Bob y modificarlos sin que Bob lo descubra, o suplantar la identidad de Alice mandando mensajes a Bob. También es posible que Bob envíe mensajes falsos y después se encubra en esta posibilidad para eximirse de las culpas.
 \end{itemize}
 
-La llegada de los criptosistemas de clave pública aporta soluciones a estos problemas. En este nuevo esquema, cada usuario tiene una clave de cifrado $k_e$ pública, que comparte con el resto de usuarios, y una clave de descifrado privada $k_d$, que solo él conoce.
+La llegada de los criptosistemas de clave pública aporta soluciones a estos problemas. En este nuevo esquema cada usuario tiene una clave de cifrado $k_e$ pública, que comparte con el resto de usuarios, y una clave de descifrado privada $k_d$, que solo él conoce.
 
 \begin{itemize}
   \item Ya no es necesario que se produzca el intercambio inicial de claves, pues las claves de cifrado de cada usuario son conocidas por todos los demás (el conocimiento de la misma no permite el descifrado).
@@ -258,6 +258,7 @@ La llegada de los criptosistemas de clave pública aporta soluciones a estos pro
 \item Es posible implementar un sistema de comunicación que garantice la \textit{autenticación} de usuarios, la \textit{integridad} de mensajes y la \textit{no repudiabilidad} mediante un protocolo de firma de mensajes. De esta forma, el receptor podrá garantizar que el mensaje no ha sido modificado y que solo puede provenir de la persona que en teoría lo ha enviado.
 
 %Como $E$ y $D$ son biyecciones e inversas. Sean $A = \{ E_a, D_a \}$ las funciones de Alice y $B = \{ E_b, D_b \}$ las funciones de Bob. Para que Alice envíe un mensaje a Bob encripta el mensaje $m$ con $E_b(D_a(m))$. Cuando Bob lo recibe, primeramente lo desencipta con su función privada, y posteriormente para comprobar que efectivamente es de Alice lo desencripta con su función pública. Así se sabe que es de Alice y solo puede ser suyo pues es la única que posee la función inversa de $E_a$.En la criptosistemas de clave simétrica, emisor y receptor acuerdan una clave $k$ que marca como funcionaran las funciones $E_k$ y $D_k$, y cualquier persona que tenga esta clave puede entrar en la comunicación.
+
 \end{itemize}
 \end{sol}
 
@@ -324,8 +325,41 @@ La seguridad de este criptosistema reside en la dificultad de cálculo del logar
 \end{sol}
 
 \begin{ejer}
-  Explicación del algoritmo de firma estándar (DSA).
+  El algoritmo de firma estándar (DSA).
 \end{ejer}
+
+\begin{sol}
+  En primer lugar es necesario introducir el concepto de \textit{función hash}. Se trata de una función $H$ que transforma un \textit{input} de longitud arbitraria en una lista de longitud fija de unos cuantos bits, usualmente entre 128 y 512. Debe ser una función de una vía, es decir, que sea sencillo calcular el valor de $H(x)$ a partir de $x$ pero computacionalmente intratable calcular $x$ a partir de $H(x)$, y también que sea muy difícil encontrar $x$ y $x'$ distintos tales que $H(x)=H(x')$.
+
+  El algoritmo de firma estándar (DSA) fue propuesto en 1991, y sigue un esquema basado en el problema del logaritmo discreto. Supongamos que Alice quiere enviar a Bob un mensaje firmado, y consideremos fijada una función hash $H$.
+
+  Para generar las claves de firma, Alice realiza los siguientes pasos:
+
+  \begin{enumerate}
+    \item Elige un primo $q$ de aproximadamente 160 bits, utilizando para ello un generador de números y uno o varios tests de primalidad.
+    \item Elige un nuevo primo $p$ congruente con $1$ módulo $q$, con aproximadamente 512 bits.
+    \item Elige $g_0$ con $1 < g_0 < p-1$ y tal que $g_0 ^{p-1/q} \not\equiv 1 \bmod p$. Llamamos $g$ al valor  $g_0 ^{p-1/q} \bmod p$. Si $g=1$ elige un nuevo valor de $g_0$ y lo vuelve a intentar.
+    \item Se elige un entero $x$ aleatoriamente cumpliendo $0 < x < q$, que será la clave secreta. La clave pública será $y = g^x \bmod p$.
+  \end{enumerate}
+
+  Para firmar un mensaje $m$, Alice procede como sigue:
+  \begin{enumerate}
+    \item Aplica el hash al mensaje y obtiene el valor $h = H(m)$, truncándolo si fuera necesario para que $0 < h < q$.
+    \item Genera aleatoriamente un entero $k$ tal que $0 < k < q$.
+    \item Se calcula $r=(g^k \bmod p) \bmod q$. En el poco probable caso de que $r=0$, se vuelve a intentar con un $k$ distinto.
+    \item Se calcula $k^{-1} \bmod q$ y $s = (k^{-1}(h + xr)) \bmod q$. En el poco probable caso de que $s=0$, se vuelve a intentar con un $k$ distinto.
+  \end{enumerate}
+
+  La firma del mensaje sería entonces la pareja $\langle r, s \rangle$, que se envía a Bob junto al valor $h$. Si Bob quiere verificar la firma, debe hacer lo siguiente:
+  \begin{enumerate}
+      \item En primer lugar, comprueba que $0 < r, s < q$. En otro caso, la firma no es válida.
+      \item Calcula $w=s^{-1} \bmod q$.
+      \item Calcula $u_1 = hw \bmod q$ y $u_2 = rw \bmod q$.
+      \item Calcula $v = ((g^{u_1}y^{u_2}) \bmod p) \bmod q$.
+  \end{enumerate}
+
+  La firma queda verificada únicamente si $v=r$. Mediante una aplicación sencilla del \textit{teorema pequeño de Fermat} se comprueba que con los valores generados siguiendo el procedimiento descrito se cumple efectivamente $v=r$.
+\end{sol}
 
 \begin{ejer}
   Rasgos esenciales de SSH: cifrado, funcionamiento, negociación de cifrado para la sesión y autenticación del acceso del usuario al servidor
