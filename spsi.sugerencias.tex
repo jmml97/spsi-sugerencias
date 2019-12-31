@@ -215,7 +215,7 @@ La principal debilidad del cifrado Vigenère es la naturaleza repetitiva de su c
 \end{ejer}
 
 \begin{sol}
-El algoritm\texttt{mx}x\textsf{x}o de cifrado de AES realiza en cada ronda una serie de transformaciones a nivel de bytes. La primera de estas transformaciones es \texttt{SubBytes()}, que consiste en sustituir los bytes del estado según una tabla de sustitución, llamada S-box. Esta sustitución se realiza de forma no lineal e independiente para cada byte del estado.
+El algoritmo de cifrado de AES realiza en cada ronda una serie de transformaciones a nivel de bytes. La primera de estas transformaciones es \texttt{SubBytes()}, que consiste en sustituir los bytes del estado según una tabla de sustitución, llamada S-box. Esta sustitución se realiza de forma no lineal e independiente para cada byte del estado.
 
 La tabla de sustitución es una matriz cuadrada de orden 16 (no simétrica), que contiene en cada posición $(i,j)$ un byte en hexadecimal que representa la transformación del byte $s_{ij}$ del estado. La construcción de la tabla se realiza de la siguiente forma, dada una entrada $xy$:
 
