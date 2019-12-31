@@ -32,8 +32,9 @@
 
 \usepackage[no-math]{fontspec}
 \setmainfont{Libertinus Serif}
+%\setsansfont[Scale=0.9]{Cabin}
 \setsansfont{Libertinus Sans}
-\setmonofont{Libertinus Mono}
+\setmonofont[Scale=0.8]{DejaVu Sans Mono}
 
 \usepackage[math-style=TeX]{unicode-math}
 \setmathfont{Libertinus Math}
@@ -48,12 +49,13 @@
 % Enlaces y colores
 
 \usepackage{hyperref}
-\usepackage{xcolor}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{webgreen}{rgb}{0,0.5,0}
 \hypersetup{
   colorlinks=true,
-  citecolor=,
-  linkcolor=,
-  urlcolor=blue,
+  citecolor=webgreen,
+  urlcolor=Maroon,
+  linkcolor=RoyalBlue
 }
 
 % Otros elementos de página
@@ -169,10 +171,10 @@
 Fijamos a continuación la notación que seguiremos en este documento.
 \begin{itemize}
 \item Denotamos por $\omega$ al primer \href{https://en.wikipedia.org/wiki/Ordinal_number}{ordinal} infinito, cuya cardinalidad coincide con la de $\mathbb{N}$. Podemos entenderlo como una forma de \textquote{ordenar} los números naturales, es decir, $\omega = \{0,1,2, \dots \}$. Dado $n \in \omega^\ast := \omega - \{0\}$, se tiene que $n = \{0, 1, \dots, n-1\}$, que identificamos cuando sea preciso con el número natural $n$.
-\item $\mathcal{A}$ será un alfabeto: un conjunto finito no vacío de símbolos. El conjunto de expresiones o palabras que podemos formar por yuxtaposición de símbolos de $\mathcal{A}$ lo denotaremos como $exp(\mathcal{A})$, es decir, \[ exp(\mathcal{A}) = \bigcup_{k \in \omega} \mathcal{A}^k,\] donde $\mathcal{A}^0 = \{\varepsilon\}$ (la palabra vacía) y $\mathcal{A}^k = \mathcal{A}^{k-1}\mathcal{A}$ para $k > 0$. Reservaremos la notación $\exp(\mathcal{A})^\ast$ para indicar que no se admite la palabra vacía.
-\item Dado $s \in exp(\mathcal{A})$, existirá $k \in \omega$ tal que $s \in \mathcal{A}^k$, es decir, $s = s_1s_2\cdots s_k$ con $s_i \in \mathcal{A}$ para todo $i$. Denotamos $s = \langle s_j \rangle_{j \in k}$, y entonces $k$ será la \textit{longitud} de $s$, denotada por $len(s)$. Cuando la longitud de la palabra no sea relevante, escribiremos simplemente $s = \langle s_j \rangle_{j}$.
-\item En ocasiones será necesario poner en correspondencia los símbolos del alfabeto con números naturales. Si $\mathcal{A}$ es un alfabeto de $n \in \omega^\ast$ símbolos, consideraremos fijada una función biyectiva $f: \mathcal{A} \to n$. De esta forma, si $s \in exp(\mathcal{A})$ nos referiremos a $\langle f(s_j) \rangle_j$ como $f(s)$.
-\item Un \textit{criptosistema} será una terna $\langle \mathcal{A}, E, D \rangle$, donde $\mathcal{A}$ es un alfabeto y $E$ (resp. $D$) es una aplicación de $exp(\mathcal{A})$ en $exp(\mathcal{A})$, de forma que $D \circ E$ sea la identidad en $exp(\mathcal{A})$. Nos referiremos a los elementos de $\exp(\mathcal{A})$ como \textit{texto plano} cuando los veamos como argumentos de $E$ (función de cifrado) y como \textit{texto cifrado} cuando los veamos como argumentos de $D$ (función de descifrado). Es usual que las funciones de cifrado y descifrado dependan de un parámetro llamado \textit{clave}, que en general no tiene que coincidir para las dos. Esta situación la denotamos como $E_{k_e}$ y $D_{k_d}$.
+\item $\mathcal{A}$ será un alfabeto: un conjunto finito no vacío de símbolos. El conjunto de expresiones o palabras que podemos formar por yuxtaposición de símbolos de $\mathcal{A}$ lo denotaremos como $\exp(\mathcal{A})$, es decir, \[ \exp(\mathcal{A}) = \bigcup_{k \in \omega} \mathcal{A}^k,\] donde $\mathcal{A}^0 = \{\varepsilon\}$ (la palabra vacía) y $\mathcal{A}^k = \mathcal{A}^{k-1}\mathcal{A}$ para $k > 0$. Reservaremos la notación $\exp(\mathcal{A})^\ast$ para indicar que no se admite la palabra vacía.
+\item Dado $s \in \exp(\mathcal{A})$, existirá $k \in \omega$ tal que $s \in \mathcal{A}^k$, es decir, $s = s_1s_2\cdots s_k$ con $s_i \in \mathcal{A}$ para todo $i$. Denotamos $s = \langle s_j \rangle_{j \in k}$, y entonces $k$ será la \textit{longitud} de $s$, denotada por $len(s)$. Cuando la longitud de la palabra no sea relevante, escribiremos simplemente $s = \langle s_j \rangle_{j}$.
+\item En ocasiones será necesario poner en correspondencia los símbolos del alfabeto con números naturales. Si $\mathcal{A}$ es un alfabeto de $n \in \omega^\ast$ símbolos, consideraremos fijada una función biyectiva $f: \mathcal{A} \to n$. De esta forma, si $s \in \exp(\mathcal{A})$ nos referiremos a $\langle f(s_j) \rangle_j$ como $f(s)$.
+\item Un \textit{criptosistema} será una terna $\langle \mathcal{A}, E, D \rangle$, donde $\mathcal{A}$ es un alfabeto y $E$ (resp. $D$) es una aplicación de $\exp(\mathcal{A})$ en $\exp(\mathcal{A})$, de forma que $D \circ E$ sea la identidad en $\exp(\mathcal{A})$. Nos referiremos a los elementos de $\exp(\mathcal{A})$ como \textit{texto plano} cuando los veamos como argumentos de $E$ (función de cifrado) y como \textit{texto cifrado} cuando los veamos como argumentos de $D$ (función de descifrado). Es usual que las funciones de cifrado y descifrado dependan de un parámetro llamado \textit{clave}, que en general no tiene que coincidir para las dos. Esta situación la denotamos como $E_{k_e}$ y $D_{k_d}$.
 \end{itemize}
 
 \newpage
@@ -213,7 +215,7 @@ La principal debilidad del cifrado Vigenère es la naturaleza repetitiva de su c
 \end{ejer}
 
 \begin{sol}
-El algoritmo de cifrado de AES realiza en cada ronda una serie de transformaciones a nivel de bytes. La primera de estas transformaciones es \texttt{SubBytes()}, que consiste en sustituir los bytes del estado según una tabla de sustitución, llamada S-box. Esta sustitución se realiza de forma no lineal e independiente para cada byte del estado.
+El algoritm\texttt{mx}x\textsf{x}o de cifrado de AES realiza en cada ronda una serie de transformaciones a nivel de bytes. La primera de estas transformaciones es \texttt{SubBytes()}, que consiste en sustituir los bytes del estado según una tabla de sustitución, llamada S-box. Esta sustitución se realiza de forma no lineal e independiente para cada byte del estado.
 
 La tabla de sustitución es una matriz cuadrada de orden 16 (no simétrica), que contiene en cada posición $(i,j)$ un byte en hexadecimal que representa la transformación del byte $s_{ij}$ del estado. La construcción de la tabla se realiza de la siguiente forma, dada una entrada $xy$:
 
