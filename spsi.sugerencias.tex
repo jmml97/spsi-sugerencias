@@ -250,7 +250,7 @@ Por este motivo no es fácil añadir un usuario a la red y actualizar la base de
 Si Alice y Bob comparten una clave secreta y se da que Carol la descubre, esta puede interceptar los mensajes de Alice a Bob y modificarlos sin que Bob lo descubra. También es posible que Bob envíe mensajes falsos y después se encubra en esta posibilidad para eximirse de las culpas.
 \end{itemize}
 
-A raiz de esto, necesitamos un nuevo criptosistema que satisfaga: autenticación, integridad y no repudiabilidad. El criptosistema de clave pública soluciona estos problemas:
+A raíz de esto, necesitamos un nuevo criptosistema que satisfaga: autenticación, integridad y no repudiabilidad. El criptosistema de clave pública soluciona estos problemas:
 \begin{itemize}
 \item Al tener una función E pública y una D privada deja de haber problema con el intercambio de claves en un canal seguro, dado que este intercambio inicial no se produce.
 \item Solo se mantienen dos claves por usuario del círculo, lo que es mucho más clave. Más aún, en la base de datos solo se guarda la clave pública de cada usuario.
