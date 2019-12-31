@@ -213,16 +213,16 @@ La principal debilidad del cifrado Vigenère es la naturaleza repetitiva de su c
 \end{ejer}
 
 \begin{sol}
-El algoritmo de cifrado de AES realiza en cada ronda una serie de transformaciones a nivel de bytes. La primera de estas transformaciones es \texttt{SubBytes()}, que consiste en sustituir los bytes del estado según una tabla de sustitución, llamada S-box. Así, la sustitución se hace de forma no lineal e independiente.
+El algoritmo de cifrado de AES realiza en cada ronda una serie de transformaciones a nivel de bytes. La primera de estas transformaciones es \texttt{SubBytes()}, que consiste en sustituir los bytes del estado según una tabla de sustitución, llamada S-box. Esta sustitución se realiza de forma no lineal e independiente para cada byte del estado.
 
-La tabla de sustitución es una matriz (no simétrica) que contiene en cada posición un byte (en hexadecimal). La construcción de la tabla se realiza de la siguiente forma, dada una entrada $xy$:
+La tabla de sustitución es una matriz cuadrada de orden 16 (no simétrica), que contiene en cada posición $(i,j)$ un byte en hexadecimal que representa la transformación del byte $s_{ij}$ del estado. La construcción de la tabla se realiza de la siguiente forma, dada una entrada $xy$:
 
 \begin{enumerate}
-\item Si $xy = 00$, se mantiene igual. Si $xy \neq 00$, se calcula el inverso de $xy$ en GF($2^8$), que será otro byte $b = b_7\dots b_0$.
+\item Si $xy = 00$, se mantiene igual. Si $xy \neq 00$, se calcula el inverso de $xy$ en GF($2^8$), que será otro byte $b = b_7\cdots b_0$.
 \item El bit $i$-ésimo del byte $b$, $b_i$, se transformará en $b_i'$ de la siguiente forma:
-  \[b_i' = b_i + b_{(i+4)\bmod 8} + b_{(i+5)\bmod 8} + b_{(i+6)\bmod 8} + + b_{(i+7)\bmod 8} + c_i,
+  \[b_i' = b_i + b_{(i+4)\bmod 8} + b_{(i+5)\bmod 8} + b_{(i+6)\bmod 8} + b_{(i+7)\bmod 8} + c_i,
   \]
-  donde $c_i$ es el $i$-ésimo bit del byte \{63\} o \{01100011\} para todo $0 \leq i \le 8$. El byte $b'$ resultante ocupará la posición $(x,y)$ de la tabla.
+  donde $c_i$ es el $i$-ésimo bit del byte \{63\} ó \{01100011\} para todo $0 \leq i < 8$. El byte $b' = b'_7\cdots b'_0$ resultante ocupará la posición $(x,y)$ de la tabla.
 
 %  Esta transformación tiene la siguiente expresión matricial:
 
@@ -272,7 +272,7 @@ A raiz de esto, necesitamos un nuevo criptosistema que satisfaga: autenticación
     \item Los primos $p$ y $q$ deben ser ambos elevados para que sea difícil aplicar algoritmos de factorización como la \href{https://en.wikipedia.org/wiki/General_number_field_sieve}{criba general del cuerpo de números}. Además, jamás deben ser elegidos de entre una lista conocida ni ser próximos el uno al otro; de lo contrario podría emplearse eficientemente el método de factorización de Fermat.
     \item El valor de $(p-1, q-1)$ no debe ser elevado en exceso, y nunca debe ocurrir que $p-1 \ | \ q-1$. Si $(p-1, q-1)$ es muy elevado, $[p-1, q-1]$ sería pequeño en comparación con $\Phi(n)$ y factible de ser encontrado por fuerza bruta. Es indeseable también que los factores primos de $\Phi(n)$ sean pequeños.
     \item Para solucionar los problemas del apartado anterior, es deseable que $p$ y $q$ sean \textit{primos seguros}. Además, tanto $p-1$ como $q-1$ deben tener factores primos elevados para evitar ataques de cifrados iterados.
-    \item El exponente $d$ debe ser elevado, y ésta es la razón de comenzar eligiéndolo para luego determinar $e$. Así se evita que sea encontrado mediante procedimientos de prueba y error.
+    \item El exponente $d$ debe ser elevado, y ésta es la razón de comenzar eligiéndolo para luego determinar $e$. Así se evita que pueda ser encontrado mediante procedimientos de prueba y error.
     \item Dos usuarios nunca deben elegir el mismo módulo como parte de su clave pública. Si un tercer usuario cifra un mismo mensaje para ellos, este puede ser leído si los exponentes públicos de ambos usuarios son primos relativos.
     \item No es recomendable tener valores pequeños de $e$ y, en caso de tenerlo, jamás debe ser elegido por varios integrantes de un mismo círculo RSA. De lo contrario, si se enviara un mismo mensaje cifrado a estos integrantes se podría obtener el texto plano aplicando convenientemente el \textit{teorema chino del resto}.
     \item Cuidarse de mensajes inocultables. Existen mensajes para determinadas claves cuyo cifrado es igual al mensaje original.
@@ -300,7 +300,7 @@ Supongamos que Alice quiere compartir con Bob un mensaje \(0\leq m \leq q\). Par
 
 \subsubsection*{Descifrando el mensaje}
 
-Cuando Bob recibe el mensaje de Alice obtiene una pareja de números $c = \langle c_1, c_2 \rangle$ menores que $p$. Para descifrarlo hace lo siguiente:
+Cuando Bob recibe el mensaje de Alice obtiene una pareja de números $\langle c_1, c_2 \rangle$ menores que $p$. Para descifrarlo hace lo siguiente:
 
 \begin{itemize}
   \item Calcula el valor de $K$ a partir de su clave privada, sin más que observar que $c_1^{x_B} = g^{x_Ax_B} \bmod p = y_B^{x_A} \bmod p = K$.
