@@ -319,7 +319,7 @@ No es recomendable elegir la misma clave $x_A$ para cifrar más de un bloque del
 c_{11}\equiv g^{x_{A}} \bmod{p}, \quad& c_{21}\equiv m_{1}K\bmod{p}, \\
 c_{12}\equiv g^{x_{A}} \bmod{p}, \quad& c_{22}\equiv m_{2}K\bmod{p}.
 \end{align*}
-Entonces, es fácil calcular \(m_2m_1^{-1} \bmod p = c_{22}c_{21}^{-1} \bmod{p}\), de donde se deriva inmediatamente \(m_{2}\) (multiplicando por \(m_{1}\)).  \\
+Entonces, es fácil calcular \(m_2m_1^{-1} \bmod p = c_{22}c_{21}^{-1} \bmod{p}\), de donde se deriva inmediatamente \(m_{2}\) (multiplicando por \(m_{1}\)).
 
 La seguridad de este criptosistema reside en la dificultad de cálculo del logaritmo discreto, por lo que es imprescindible tomar las precauciones necesarias para que no sea fácil calcular dicho logaritmo. A saber, necesitamos que $p-1$ contenga al menos un factor primo elevado. Para ello podemos por ejemplo elegir $p$ como un \textit{primo seguro}, es decir, de la forma $p = 2r + 1$ con $r$ primo.
 \end{sol}
