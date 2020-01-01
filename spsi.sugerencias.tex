@@ -227,6 +227,8 @@ La tabla de sustitución es una matriz cuadrada de orden 16 (no simétrica), que
   donde $c_i$ es el $i$-ésimo bit del byte \{63\} ó \{01100011\} para todo $0 \leq i < 8$. El byte $b' = b'_7\cdots b'_0$ resultante ocupará la posición $(x,y)$ de la tabla.
 
 \end{enumerate}
+
+Mencionamos también que es posible expresar el efecto de \texttt{SubBytes()} mediante una transformación afín aplicada a cada byte del estado (visto como vector de bits).
 \end{sol}
 
 \begin{ejer}
