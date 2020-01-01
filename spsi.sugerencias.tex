@@ -32,7 +32,6 @@
 
 \usepackage[no-math]{fontspec}
 \setmainfont{Libertinus Serif}
-%\setsansfont[Scale=0.9]{Cabin}
 \setsansfont{Libertinus Sans}
 \setmonofont[Scale=0.8]{DejaVu Sans Mono}
 
@@ -101,11 +100,11 @@
 % ENTORNOS
 
 \newtheoremstyle{ejercicio-style}  % Nombre del estilo
-{2\topsep}                                  % Espacio por encima
-{1.5\topsep}                                  % Espacio por debajo
-{\itshape}                                  % Fuente del cuerpo
+{3\topsep}                                  % Espacio por encima
+{2.5\topsep}                                  % Espacio por debajo
+{\large\sffamily\itshape}                                  % Fuente del cuerpo
 {0pt}                                  % Identación
-{\scshape}                      % Fuente para la cabecera
+{\large\sffamily\scshape}                      % Fuente para la cabecera
 {.}                                 % Puntuación tras la cabecera
 {5pt plus 1pt minus 1pt}                              % Espacio tras la cabecera
 {{\thmname{#1}\thmnumber{ #2}}\thmnote{ (#3)}}  % Especificación de la cabecera
@@ -125,7 +124,7 @@
 {1\topsep}                                  % Espacio por debajo
 {\itshape}                                  % Fuente del cuerpo
 {0pt}                                  % Identación
-{\bfseries}                      % Fuente para la cabecera
+{\scshape}                      % Fuente para la cabecera
 {.}                                 % Puntuación tras la cabecera
 {5pt plus 1pt minus 1pt}                              % Espacio tras la cabecera
 {{\thmname{#1}\thmnumber{ #2}}\thmnote{ (#3)}}  % Especificación de la cabecera
