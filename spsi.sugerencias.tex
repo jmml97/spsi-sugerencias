@@ -332,10 +332,10 @@ Supongamos que Alice quiere compartir con Bob un mensaje \(0\leq m \leq q\). Par
 
 Cuando Bob recibe el mensaje de Alice obtiene una pareja de números $\langle c_1, c_2 \rangle$ menores que $p$. Para descifrarlo hace lo siguiente:
 
-\begin{itemize}
+\begin{enumerate}
   \item Calcula el valor de $K$ a partir de su clave privada, sin más que observar que $c_1^{x_B} = g^{x_Ax_B} \bmod p = y_B^{x_A} \bmod p = K$.
   \item Ahora calcula el inverso de $K$ módulo $p$ y computa el valor de $m$ haciendo $c_2K^{-1} \bmod p = mKK^{-1} \bmod p = m$, lo que le permite recuperar el texto plano.
-\end{itemize}
+\end{enumerate}
 
 \subsubsection*{Vulnerabilidades}
 
