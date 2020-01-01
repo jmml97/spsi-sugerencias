@@ -237,7 +237,7 @@ La tabla de sustitución es una matriz cuadrada de orden 16 (no simétrica), que
   En la criptosistemas de cifrado simétrico, emisor y receptor acuerdan una misma clave $k$ que marca como funcionarán las funciones de cifrado y descifrado $E_k$ y $D_k$. Este esquema presenta las siguientes limitaciones:
 
 \begin{itemize}
-\item Es necesario que se produzca un intercambio inicial de la clave antes de poder establecer la comunicación cifrada. Este es uno de los mayores problemas de la criptografía clásica, pues salvo en contadas ocasiones este intercambio se realiza por un canal potencialmente inseguro.
+\item Es necesario que se produzca un intercambio inicial de la clave antes de poder establecer la comunicación cifrada. Este es uno de los mayores problemas de la criptografía clásica, pues no siempre es posible garantizar un canal seguro de comunicación para dicho intercambio.
 
 %Si bien, se pudieron vadear en un inicio por medios militares y personas de confianza, esto se hace imposible cuando, por ejemplo, estamos hablando de encriptar transacciones comerciales donde los involucrados son completos desconocidos. Además el coste de este intercambio es demasiado alto considerando la posibilidad de que no se vuelva a necesitar nunca más el canal.
 
@@ -255,9 +255,9 @@ La llegada de los criptosistemas de clave pública aporta soluciones a estos pro
 
   \item Solo se mantienen dos claves por cada usuario del círculo, lo que elimina los problemas de creación y mantenimiento de la base de datos. Más aún, en la base de datos solo se guarda la clave pública de cada usuario, reduciendo considerablemente el tamaño de esta.
 
-\item Es posible implementar un sistema de comunicación que garantice la \textit{autenticación} de usuarios, la \textit{integridad} de mensajes y la \textit{no repudiabilidad} mediante un protocolo de firma de mensajes. De esta forma, el receptor podrá garantizar que el mensaje no ha sido modificado y que solo puede provenir de la persona que en teoría lo ha enviado.
+\item Es posible implementar un sistema de comunicación que garantice la \textit{autenticación} de usuarios, la \textit{integridad} de mensajes y la \textit{no repudiabilidad} mediante un protocolo de firma de mensajes. De esta forma, el receptor podrá garantizar que el mensaje no ha sido modificado y que solo puede provenir de la persona que en teoría lo ha enviado. Además, la firma depende del contenido del mensaje, por lo que nadie puede usarla con otro documento.
 
-%TODO: Deberíamos explicar 
+%TODO: Deberíamos explicar
 \end{itemize}
 \end{sol}
 
@@ -266,18 +266,27 @@ La llegada de los criptosistemas de clave pública aporta soluciones a estos pro
 \end{ejer}
 \begin{sol}
 
-  El sistema de clave pública fue inventado para el manejo de claves secretas. En este dos clave $pub$ y $priv$ determinan dos funciones $E$ y $D$ respectivamente cumpliendo que $E$ y $D$ son biyecciones e inversas.
+  Los sistemas criptográficos de clave pública fueron inventados para el manejo de claves secretas. En estos sistemas, cada usuario usa dos claves: una clave de cifrado $k_e$ (pública) y otra clave de descifrado $k_d$ (privada), que determinan las funciones $E = E_{k_e}$ y $D = D_{k_d}$, respectivamente. Para que el sistema funcione correctamente, para todo mensaje $m$ debe cumplirse que $D(E(m)) = m$.
 
-  Se considera la función $E$ como función de cifrado, es conocida por todo el mundo y a su clave asociada como clave pública. De forma análoga la función $D$ se usa como función de descifrado, solo la conoce el creador de estas funciones y su clave asociada es la clave privada. Así, si alguien quiere enviar un mensaje a este creador, encripta con la función $E$ de acceso público el mensaje y posteriormente lo envía, de modo que solo será capaz de desencriptarlo el receptor. Notese que el emisor tampoco es capaz de desencriptar el mensaje ni ha hecho falta realizar un intercambio previo de claves.
+  Cualquiera que desee mandar un mensaje confidencial a otra persona lo cifrará empleando la función de cifrado asociada a la clave pública de esta persona, que es conocida, confiando en que solo el poseedor de la clave privada asociada podrá descifrarlo. Nótese que ni siquiera el emisor sería capaz de descifrar el mensaje, y que no ha hecho falta realizar un intercambio previo de claves.
 
-  Para implementar este sistema se necesita una función unidireccional trampa. Esta debe ser una función $f$ que sea \emph{fácil} de calcular, pero que su inversa $f^{-1}$ sea \emph{difícil} de calcular solo conociendo $f$. Esto es lógico, pues si no la privacidad de $D$ estaría comprometida al ser $E$ pública. Además debe existir una \emph{trampa} que haga que $f^{-1}$ sea de fácil cálculo. Esta \emph{trampa} será la clave privada o al menos deberá depender de ella y ser calculable a partir de esta en un modo eficiente. Ejemplos de funciones trampa serían:
+  Para que el sistema sea práctico, es necesario que se pueda calcular $E(m)$ y $D(E(m))$ rápidamente, pero por seguridad debería ser imposible determinar $D$ a partir de $E$ en un tiempo razonable. Esto es lógico, pues si no la confidencialidad de $D$ estaría comprometida al ser $E$ pública.
 
-  \begin{itemize}
-  \item $f(x) := g^x mod n,\ g,x,n\in \mathbb{N}$ 
-  \item $f(pq) := pq,\ pq\in \mathbb{N}$ 
-  \end{itemize}
+  Téoricamente estos sistemas podrían construirse a partir de una \textit{función unidireccional trampa}. Esta debe ser una función $f$ que sea \emph{fácil} de calcular, pero que su inversa $f^{-1}$ sea \emph{difícil} de calcular sin una información adicional conocida como \textit{trampa}. En el contexto criptográfico dicha trampa estará asociada a la clave privada, de forma que solo el receptor tenga la información necesaria para determinar el algoritmo de descifrado a partir de $f$. Subrayamos que la existencia de funciones unidireccionales no ha sido demostrada, y de hecho de existir alguna se tendría necesariamente que $P \neq NP$ \footnote{Alan L. Selman. \textit{A survey of one-way functions in complexity theory}. Mathematical systems theory, 25(3):203–221, 1992.}.
 
-  La firma funciona del siguiente modo:  sean $A = \{ E_a, D_a \}$ las funciones de Alice y $B = \{ E_b, D_b \}$ las funciones de Bob. Para que Alice envíe un mensaje a Bob encripta el mensaje $m$ con $E_b(D_a(m))$. Cuando Bob lo recibe, primeramente lo desencipta con su función privada, y posteriormente para comprobar que efectivamente es de Alice lo desencripta con su función pública. Así se sabe que es de Alice y solo puede ser suyo pues es la única que posee la función inversa de $E_a$.En la criptosistemas de clave simétrica, emisor y receptor acuerdan una clave $k$ que marca como funcionaran las funciones $E_k$ y $D_k$, y cualquier persona que tenga esta clave puede entrar en la comunicación.
+  Un ejemplo de función cuya unidireccionalidad ha sido conjeturada es $(p, q) \mapsto pq$, donde $p$ y $q$ son primos. El problema de descomponer un número en sus factores primos se conoce como \href{https://en.wikipedia.org/wiki/Integer_factorization}{problema de factorización}, y es considerado extremadamente difícil a día de hoy. Esta función es la que se utiliza para implementar el criptosistema de clave pública RSA, donde la trampa es, por ejemplo, el conocimiento de la \textit{función phi de Euler} $\Phi(pq)$.
+
+  A partir de estos sistemas es posible implementar un protocolo de firma.
+  Por ejemplo, si suponemos que las funciones $E$ y $D$ son biyectivas e inversas, la firma funcionaría del siguiente modo. Sean $\{ E_a, D_a \}$ las funciones de cifrado y descifrado de Alice y $\{ E_b, D_b \}$ las correspondientes funciones de Bob. Si Alice quiere enviar a Bob un mensaje cifrado y firmado, se procede como sigue:
+
+  \begin{enumerate}
+    \item Alice cifra el mensaje con su clave privada, es decir, calcula $D_a(m)$.
+    \item Cifra el mensaje de nuevo, pero esta vez utilizando la clave pública de Bob. Envía a Bob $E_b(D_a(m))$.
+    \item Bob recupera $D_a(m)$ aplicando su función privada de descifrado, $D_b$.
+    \item Finalmente Bob recupera el texto plano descifrando el mensaje con la clave pública de Alice: $E_a(D_a(m)) = m$. Es aquí donde se emplea la hipótesis extra de que $E \circ D = 1$.
+  \end{enumerate}
+
+  De esta forma se sigue garantizando la confidencialidad, pues solo Bob puede descifrar la primera capa del mensaje mediante su clave privada. Además, puede estar seguro de que el mensaje proviene de Alice (o, al menos, de alguien que posea su clave privada), pues el procedimiento solo tiene éxito si la segunda capa fue cifrada con la clave privada de Alice.
 
 \end{sol}
 
@@ -313,7 +322,7 @@ El criptosistema de ElGamal es un criptosistema de clave pública propuesto por 
 
 \subsubsection*{Preliminares}
 
-En primer lugar, se debe elegir un primo $p$ elevado y un elemento primitivo $g \in GF(p)^\ast$. Suponemos que las unidades de texto llano estarán expresadas en números de $GF(p)$, y llamamos $q = |GF(p)^\ast| = p -1$. Ahora, cada usuario elige aleatoriamente un valor $x$ con $0 < x < q$, que será su clave privada. La clave pública será $y = g^x \bmod p$.
+En primer lugar, se debe elegir un primo $p$ elevado y un elemento primitivo $g \in GF(p)$, es decir, un generador del grupo cíclico $GF(p)^\ast$. Suponemos que las unidades de texto llano estarán expresadas en números de $GF(p)$, y llamamos $q = |GF(p)^\ast| = p -1$. Ahora, cada usuario elige aleatoriamente un valor $x$ con $0 < x < q$, que será su clave privada. La clave pública será $y = g^x \bmod p$.
 
 \subsubsection*{Cifrando el mensaje}
 
@@ -345,7 +354,7 @@ La seguridad de este criptosistema reside en la dificultad de cálculo del logar
 \end{ejer}
 
 \begin{sol}
-  En primer lugar es necesario introducir el concepto de \textit{función hash}. Se trata de una función $H$ que transforma un \textit{input} de longitud arbitraria en una lista de longitud fija de unos cuantos bits, usualmente entre 128 y 512. Debe ser una función de una vía, es decir, que sea sencillo calcular el valor de $H(x)$ a partir de $x$ pero computacionalmente intratable calcular $x$ a partir de $H(x)$, y también que sea muy difícil encontrar $x$ y $x'$ distintos tales que $H(x)=H(x')$.
+  En primer lugar es necesario introducir el concepto de \textit{función hash}. Se trata de una función $H$ que transforma un \textit{input} de longitud arbitraria en una lista de longitud fija de unos cuantos bits, usualmente entre 128 y 512. Debe ser una función para la que sencillo calcular el valor de $H(x)$ a partir de $x$ pero computacionalmente intratable calcular $x$ a partir de $H(x)$, y también que sea muy difícil encontrar $x$ y $x'$ distintos tales que $H(x)=H(x')$.
 
   El algoritmo de firma estándar (DSA) fue propuesto en 1991, y sigue un esquema basado en el problema del logaritmo discreto. Supongamos que Alice quiere enviar a Bob un mensaje firmado, y consideremos fijada una función hash $H$.
 
