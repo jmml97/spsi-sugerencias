@@ -257,14 +257,30 @@ La llegada de los criptosistemas de clave pública aporta soluciones a estos pro
 
 \item Es posible implementar un sistema de comunicación que garantice la \textit{autenticación} de usuarios, la \textit{integridad} de mensajes y la \textit{no repudiabilidad} mediante un protocolo de firma de mensajes. De esta forma, el receptor podrá garantizar que el mensaje no ha sido modificado y que solo puede provenir de la persona que en teoría lo ha enviado.
 
-%Como $E$ y $D$ son biyecciones e inversas. Sean $A = \{ E_a, D_a \}$ las funciones de Alice y $B = \{ E_b, D_b \}$ las funciones de Bob. Para que Alice envíe un mensaje a Bob encripta el mensaje $m$ con $E_b(D_a(m))$. Cuando Bob lo recibe, primeramente lo desencipta con su función privada, y posteriormente para comprobar que efectivamente es de Alice lo desencripta con su función pública. Así se sabe que es de Alice y solo puede ser suyo pues es la única que posee la función inversa de $E_a$.En la criptosistemas de clave simétrica, emisor y receptor acuerdan una clave $k$ que marca como funcionaran las funciones $E_k$ y $D_k$, y cualquier persona que tenga esta clave puede entrar en la comunicación.
-
+%TODO: Deberíamos explicar 
 \end{itemize}
 \end{sol}
 
 \begin{ejer}
   Explicar los fundamentos de la criptografía de clave pública y las líneas fundamentales de la firma a través de la misma.
 \end{ejer}
+\begin{sol}
+
+  El sistema de clave pública fue inventado para el manejo de claves secretas. En este dos clave $pub$ y $priv$ determinan dos funciones $E$ y $D$ respectivamente cumpliendo que $E$ y $D$ son biyecciones e inversas.
+
+  Se considera la función $E$ como función de cifrado, es conocida por todo el mundo y a su clave asociada como clave pública. De forma análoga la función $D$ se usa como función de descifrado, solo la conoce el creador de estas funciones y su clave asociada es la clave privada. Así, si alguien quiere enviar un mensaje a este creador, encripta con la función $E$ de acceso público el mensaje y posteriormente lo envía, de modo que solo será capaz de desencriptarlo el receptor. Notese que el emisor tampoco es capaz de desencriptar el mensaje ni ha hecho falta realizar un intercambio previo de claves.
+
+  Para implementar este sistema se necesita una función unidireccional trampa. Esta debe ser una función $f$ que sea \emph{fácil} de calcular, pero que su inversa $f^{-1}$ sea \emph{difícil} de calcular solo conociendo $f$. Esto es lógico, pues si no la privacidad de $D$ estaría comprometida al ser $E$ pública. Además debe existir una \emph{trampa} que haga que $f^{-1}$ sea de fácil cálculo. Esta \emph{trampa} será la clave privada o al menos deberá depender de ella y ser calculable a partir de esta en un modo eficiente. Ejemplos de funciones trampa serían:
+
+  \begin{itemize}
+  \item $f(x) := g^x mod n,\ g,x,n\in \mathbb{N}$ 
+  \item $f(pq) := pq,\ pq\in \mathbb{N}$ 
+  \end{itemize}
+
+  La firma funciona del siguiente modo:  sean $A = \{ E_a, D_a \}$ las funciones de Alice y $B = \{ E_b, D_b \}$ las funciones de Bob. Para que Alice envíe un mensaje a Bob encripta el mensaje $m$ con $E_b(D_a(m))$. Cuando Bob lo recibe, primeramente lo desencipta con su función privada, y posteriormente para comprobar que efectivamente es de Alice lo desencripta con su función pública. Así se sabe que es de Alice y solo puede ser suyo pues es la única que posee la función inversa de $E_a$.En la criptosistemas de clave simétrica, emisor y receptor acuerdan una clave $k$ que marca como funcionaran las funciones $E_k$ y $D_k$, y cualquier persona que tenga esta clave puede entrar en la comunicación.
+
+\end{sol}
+
 
 \begin{ejer}
   Enumerar resumidamente las precauciones más destacables a tomar al generar un cículo de comunicación basado en RSA.
