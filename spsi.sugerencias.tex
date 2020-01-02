@@ -169,10 +169,15 @@
 
 Fijamos a continuación la notación que seguiremos en este documento.
 \begin{itemize}
-\item Denotamos por $\omega$ al primer \href{https://en.wikipedia.org/wiki/Ordinal_number}{ordinal} infinito, cuya cardinalidad coincide con la de $\mathbb{N}$. Podemos entenderlo como una forma de \textquote{ordenar} los números naturales, es decir, $\omega = \{0,1,2, \dots \}$. Dado $n \in \omega^\ast := \omega - \{0\}$, se tiene que $n = \{0, 1, \dots, n-1\}$, que identificamos cuando sea preciso con el número natural $n$.
+\item Denotamos por $\omega$ al primer \href{https://en.wikipedia.org/wiki/Ordinal_number}{ordinal} infinito, cuya cardinalidad coincide con la de $\mathbb{N}$. Podemos entenderlo como una forma de \textquote{ordenar} los números naturales, es decir, $\omega = \{0,1,2, \dots \}$. Dado $n \in \omega^\ast := \omega - \{0\}$, se tiene que $n = \{0, 1, \dots, n-1\}$, que identificamos cuando sea preciso con el número natural $n$. El orden en este conjunto va dado por la pertenencia, es decir, $a\le b$ si y solo si $a\in b$. Es un orden total por contrucción del conjunto.
+
+
 \item $\mathcal{A}$ será un alfabeto: un conjunto finito no vacío de símbolos. El conjunto de expresiones o palabras que podemos formar por yuxtaposición de símbolos de $\mathcal{A}$ lo denotaremos como $\exp(\mathcal{A})$, es decir, \[ \exp(\mathcal{A}) = \bigcup_{k \in \omega} \mathcal{A}^k,\] donde $\mathcal{A}^0 = \{\varepsilon\}$ (la palabra vacía) y $\mathcal{A}^k = \mathcal{A}^{k-1}\mathcal{A}$ para $k > 0$. Reservaremos la notación $\exp(\mathcal{A})^\ast$ para indicar que no se admite la palabra vacía.
+
 \item Dado $s \in \exp(\mathcal{A})$, existirá $k \in \omega$ tal que $s \in \mathcal{A}^k$, es decir, $s = s_1s_2\cdots s_k$ con $s_i \in \mathcal{A}$ para todo $i$. Denotamos $s = \langle s_j \rangle_{j \in k}$, y entonces $k$ será la \textit{longitud} de $s$, denotada por $len(s)$. Cuando la longitud de la palabra no sea relevante, escribiremos simplemente $s = \langle s_j \rangle_{j}$.
+
 \item En ocasiones será necesario poner en correspondencia los símbolos del alfabeto con números naturales. Si $\mathcal{A}$ es un alfabeto de $n \in \omega^\ast$ símbolos, consideraremos fijada una función biyectiva $f: \mathcal{A} \to n$. De esta forma, si $s \in \exp(\mathcal{A})$ nos referiremos a $\langle f(s_j) \rangle_j$ como $f(s)$.
+
 \item Un \textit{criptosistema} será una terna $\langle \mathcal{A}, E, D \rangle$, donde $\mathcal{A}$ es un alfabeto y $E$ (resp. $D$) es una aplicación de $\exp(\mathcal{A})$ en $\exp(\mathcal{A})$, de forma que $D \circ E$ sea la identidad en $\exp(\mathcal{A})$. Nos referiremos a los elementos de $\exp(\mathcal{A})$ como \textit{texto plano} cuando los veamos como argumentos de $E$ (función de cifrado) y como \textit{texto cifrado} cuando los veamos como argumentos de $D$ (función de descifrado). Es usual que las funciones de cifrado y descifrado dependan de un parámetro llamado \textit{clave}, que en general no tiene que coincidir para las dos. Esta situación la denotamos como $E_{k_e}$ y $D_{k_d}$.
 \end{itemize}
 
@@ -227,7 +232,7 @@ La tabla de sustitución es una matriz cuadrada de orden 16 (no simétrica), que
 
 \end{enumerate}
 
-Mencionamos también que es posible expresar el efecto de \texttt{SubBytes()} mediante una transformación afín aplicada a cada byte del estado (visto como vector de bits).
+Mencionamos también que es posible expresar el efecto de \texttt{SubBytes()} mediante una transformación afín aplicada a cada byte del estado (visto como vector de bits). Al ser una transformación afín inyectiva, esta tiene una inversa. A esta inversa la llamaremos transformación \texttt{InvSubBytes()} y se usará para revertir los efectos de la transformación \texttt{SubBytes()}.
 \end{sol}
 
 \begin{ejer}
@@ -353,7 +358,7 @@ El criptosistema de ElGamal es un criptosistema de clave pública propuesto por 
 
 \subsubsection*{Preliminares}
 
-En primer lugar, se debe elegir un primo $p$ elevado y un elemento primitivo $g \in GF(p)$, es decir, un generador del grupo cíclico $GF(p)^\ast$. Suponemos que las unidades de texto llano estarán expresadas en números de $GF(p)$, y llamamos $q = |GF(p)^\ast| = p -1$. Ahora, cada usuario elige aleatoriamente un valor $x$ con $0 < x < q$, que será su clave privada. La clave pública será $y = g^x \bmod p$.
+En primer lugar, se debe elegir un primo $p$ elevado y un elemento  $g \in GF(p)$. Es preferente, pero no absolutamente necesario, que $g$ sea un elemento primitivo, es decir, un generador del grupo cíclico $GF(p)^\ast$. Suponemos que las unidades de texto llano estarán expresadas en números de $GF(p)$, y llamamos $q = |GF(p)^\ast| = p -1$. Ahora, cada usuario elige aleatoriamente un valor $x$ con $0 < x < q$, que será su clave privada. La clave pública será $y = g^x \bmod p$.
 
 \subsubsection*{Cifrando el mensaje}
 
