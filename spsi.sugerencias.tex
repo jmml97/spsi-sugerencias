@@ -32,7 +32,6 @@
 
 \usepackage[no-math]{fontspec}
 \setmainfont{Libertinus Serif}
-%\setsansfont[Scale=0.9]{Cabin}
 \setsansfont{Libertinus Sans}
 \setmonofont[Scale=0.8]{DejaVu Sans Mono}
 
@@ -101,11 +100,11 @@
 % ENTORNOS
 
 \newtheoremstyle{ejercicio-style}  % Nombre del estilo
-{2\topsep}                                  % Espacio por encima
-{1.5\topsep}                                  % Espacio por debajo
-{\itshape}                                  % Fuente del cuerpo
+{3\topsep}                                  % Espacio por encima
+{2.5\topsep}                                  % Espacio por debajo
+{\large\sffamily\itshape}                                  % Fuente del cuerpo
 {0pt}                                  % Identación
-{\scshape}                      % Fuente para la cabecera
+{\large\sffamily\scshape}                      % Fuente para la cabecera
 {.}                                 % Puntuación tras la cabecera
 {5pt plus 1pt minus 1pt}                              % Espacio tras la cabecera
 {{\thmname{#1}\thmnumber{ #2}}\thmnote{ (#3)}}  % Especificación de la cabecera
@@ -125,7 +124,7 @@
 {1\topsep}                                  % Espacio por debajo
 {\itshape}                                  % Fuente del cuerpo
 {0pt}                                  % Identación
-{\bfseries}                      % Fuente para la cabecera
+{\scshape}                      % Fuente para la cabecera
 {.}                                 % Puntuación tras la cabecera
 {5pt plus 1pt minus 1pt}                              % Espacio tras la cabecera
 {{\thmname{#1}\thmnumber{ #2}}\thmnote{ (#3)}}  % Especificación de la cabecera
@@ -170,11 +169,17 @@
 
 Fijamos a continuación la notación que seguiremos en este documento.
 \begin{itemize}
-\item Denotamos por $\omega$ al primer \href{https://en.wikipedia.org/wiki/Ordinal_number}{ordinal} infinito, cuya cardinalidad coincide con la de $\mathbb{N}$. Podemos entenderlo como una forma de \textquote{ordenar} los números naturales, es decir, $\omega = \{0,1,2, \dots \}$. Dado $n \in \omega^\ast := \omega - \{0\}$, se tiene que $n = \{0, 1, \dots, n-1\}$, que identificamos cuando sea preciso con el número natural $n$.
+\item Denotamos por $\omega$ al primer \href{https://en.wikipedia.org/wiki/Ordinal_number}{ordinal} infinito, cuya cardinalidad coincide con la de $\mathbb{N}$. Podemos entenderlo como una forma de \textquote{ordenar} los números naturales, es decir, $\omega = \{0,1,2, \dots \}$. Dado $n \in \omega^\ast := \omega - \{0\}$, se tiene que $n = \{0, 1, \dots, n-1\}$, que identificamos cuando sea preciso con el número natural $n$. El orden viene dado por la pertenencia, es decir, $n\le m$ si y solo si $n\in m$, y es un orden total por construcción.
+
 \item $\mathcal{A}$ será un alfabeto: un conjunto finito no vacío de símbolos. El conjunto de expresiones o palabras que podemos formar por yuxtaposición de símbolos de $\mathcal{A}$ lo denotaremos como $\exp(\mathcal{A})$, es decir, \[ \exp(\mathcal{A}) = \bigcup_{k \in \omega} \mathcal{A}^k,\] donde $\mathcal{A}^0 = \{\varepsilon\}$ (la palabra vacía) y $\mathcal{A}^k = \mathcal{A}^{k-1}\mathcal{A}$ para $k > 0$. Reservaremos la notación $\exp(\mathcal{A})^\ast$ para indicar que no se admite la palabra vacía.
+
 \item Dado $s \in \exp(\mathcal{A})$, existirá $k \in \omega$ tal que $s \in \mathcal{A}^k$, es decir, $s = s_1s_2\cdots s_k$ con $s_i \in \mathcal{A}$ para todo $i$. Denotamos $s = \langle s_j \rangle_{j \in k}$, y entonces $k$ será la \textit{longitud} de $s$, denotada por $len(s)$. Cuando la longitud de la palabra no sea relevante, escribiremos simplemente $s = \langle s_j \rangle_{j}$.
+
 \item En ocasiones será necesario poner en correspondencia los símbolos del alfabeto con números naturales. Si $\mathcal{A}$ es un alfabeto de $n \in \omega^\ast$ símbolos, consideraremos fijada una función biyectiva $f: \mathcal{A} \to n$. De esta forma, si $s \in \exp(\mathcal{A})$ nos referiremos a $\langle f(s_j) \rangle_j$ como $f(s)$.
-\item Un \textit{criptosistema} será una terna $\langle \mathcal{A}, E, D \rangle$, donde $\mathcal{A}$ es un alfabeto y $E$ (resp. $D$) es una aplicación de $\exp(\mathcal{A})$ en $\exp(\mathcal{A})$, de forma que $D \circ E$ sea la identidad en $\exp(\mathcal{A})$. Nos referiremos a los elementos de $\exp(\mathcal{A})$ como \textit{texto plano} cuando los veamos como argumentos de $E$ (función de cifrado) y como \textit{texto cifrado} cuando los veamos como argumentos de $D$ (función de descifrado). Es usual que las funciones de cifrado y descifrado dependan de un parámetro llamado \textit{clave}, que en general no tiene que coincidir para las dos. Esta situación la denotamos como $E_{k_e}$ y $D_{k_d}$.
+
+\item Denotaremos el cuerpo finito de $n$ elementos como GF$(n)$, y el grupo multiplicativo asociado como GF$(n)^\ast$.
+
+\item Un \textit{criptosistema} será una terna $\langle \mathcal{A}, E, D \rangle$, donde $\mathcal{A}$ es un alfabeto y $E$ (resp. $D$) es una aplicación de $\exp(\mathcal{A})$ en $\exp(\mathcal{A})$, de forma que $D \circ E$ sea la identidad en $\exp(\mathcal{A})$. Nos referiremos a los elementos de $\exp(\mathcal{A})$ como \textit{texto plano} cuando los veamos como argumentos de $E$ (función de cifrado) y como \textit{texto cifrado} cuando los veamos como argumentos de $D$ (función de descifrado). Es usual que las funciones de cifrado y descifrado dependan de un parámetro llamado \textit{clave}, que en general no tiene que coincidir para las dos.
 \end{itemize}
 
 \newpage
@@ -186,7 +191,7 @@ Fijamos a continuación la notación que seguiremos en este documento.
 \begin{sol}
   Dado $n \in \omega^\ast$ y $\mathcal{A}$ un alfabeto de $n$ símbolos, el cifrado de Vigenère es un criptosistema polialfabético que consiste en una clave $\alpha\in \exp (\mathcal{A})^*$ y sendas funciones $E_\alpha$ y $D_\alpha$ para cifrar y descifrar respectivamente. Podemos definir la función $E_\alpha: \exp (\mathcal{A})^* \to \exp (\mathcal{A})^*$ como
 \[ E_\alpha (s) = \langle f^{-1}( (f(s_j) + f((\alpha^{len(s)})_j)) \bmod  n)\rangle _j, \]
-donde $s = \langle s_j \rangle_j$ y la expresión $\alpha^{len(s)}$ es la yuxtaposición de la expresión $\alpha$ consigo misma y eventual truncamiento final hasta conseguir una palabra con la misma longitud que $s$. Hacemos esto para asegurar la existencia de una letra en cada posición $j \in len(s)$ de $\alpha$. Por ejemplo, si $\alpha = HOLA$ entonces $\alpha^{10}$ = HOLAHOLAHO. De modo análogo se define $D_\alpha: \exp (\mathcal{A})^* \to \exp (\mathcal{A})^*$ como:
+donde $s = \langle s_j \rangle_j$ y la expresión $\alpha^{len(s)}$ es la yuxtaposición de la expresión $\alpha$ consigo misma y eventual truncamiento final hasta conseguir una palabra con la misma longitud que $s$. Hacemos esto para asegurar la existencia de una letra en cada posición $j \in len(s)$ de $\alpha$. Por ejemplo, si $\alpha = $ HOLA y $s=$ ESTOPA, entonces $\alpha^{len(s)}$ = HOLAHO. De modo análogo se define $D_\alpha: \exp (\mathcal{A})^* \to \exp (\mathcal{A})^*$ como:
  \[D_\alpha (s) = \langle f^{-1}( (f(s_j) - f((\alpha^{len(s)})_j)) \bmod  n)\rangle _j.\]
 
   Se comprueba que efectivamente la terna $\langle \mathcal{A}, E_\alpha, D_\alpha \rangle$ es un criptosistema, es decir,  $D_\alpha \circ E_\alpha = 1_{\exp(\mathcal A)^*}$. En efecto, si $s=\langle s_j \rangle _j \in \exp(\mathcal A)^*$, se tiene que:
@@ -215,17 +220,28 @@ La principal debilidad del cifrado Vigenère es la naturaleza repetitiva de su c
 \end{ejer}
 
 \begin{sol}
-El algoritmo de cifrado de AES realiza en cada ronda una serie de transformaciones a nivel de bytes. La primera de estas transformaciones es \texttt{SubBytes()}, que consiste en sustituir los bytes del estado según una tabla de sustitución, llamada S-box. Esta sustitución se realiza de forma no lineal e independiente para cada byte del estado.
+El algoritmo de cifrado de AES realiza en cada ronda una serie de transformaciones a nivel de bytes. La primera de estas transformaciones es \texttt{SubBytes()}, que consiste en sustituir los bytes del estado según una tabla de sustitución llamada S-box. Esta sustitución se realiza de forma no lineal e independiente para cada byte del estado.
 
 La tabla de sustitución es una matriz cuadrada de orden 16 (no simétrica), que contiene en cada posición $(i,j)$ un byte en hexadecimal que representa la transformación del byte $s_{ij}$ del estado. La construcción de la tabla se realiza de la siguiente forma, dada una entrada $xy$:
 
 \begin{enumerate}
-\item Si $xy = 00$, se mantiene igual. Si $xy \neq 00$, se calcula el inverso de $xy$ en GF($2^8$), que será otro byte $b = b_7\cdots b_0$.
-\item El bit $i$-ésimo del byte $b$, $b_i$, se transformará en $b_i'$ de la siguiente forma:
-  \[b_i' = b_i + b_{(i+4)\bmod 8} + b_{(i+5)\bmod 8} + b_{(i+6)\bmod 8} + b_{(i+7)\bmod 8} + c_i,
-  \]
+\item Si $xy = 00$, se mantiene igual. Si $xy \neq 00$, se calcula el inverso de $xy$ en GF$(2^8)$, que será otro byte $b = b_7\cdots b_0$.
+\item El bit $i$-ésimo del byte $b$, $b_i$, se transformará en $b_i'$ haciendo
+\begin{equation}
+  \label{eq:subbytes}
+  b_i' = b_i + b_{(i+4)\bmod 8} + b_{(i+5)\bmod 8} + b_{(i+6)\bmod 8} + b_{(i+7)\bmod 8} + c_i,
+\end{equation}
   donde $c_i$ es el $i$-ésimo bit del byte \{63\} ó \{01100011\} para todo $0 \leq i < 8$. El byte $b' = b'_7\cdots b'_0$ resultante ocupará la posición $(x,y)$ de la tabla.
 
+\end{enumerate}
+
+Mencionamos también que es posible expresar el efecto de (\ref{eq:subbytes}}) mediante una transformación afín aplicada a cada byte del estado (visto como vector de bits). Dicha transformación es invertible, y a la transformación resultante de aplicar la inversa seguida de tomar el inverso multiplicativo en GF$(2^8)$ la llamaremos transformación \texttt{InvSubBytes()}. Se usará para revertir los efectos de la transformación \texttt{SubBytes()}.
+
+Sabemos que GF$(2^8) \cong \mathbb Z_2[x] /m(x)$, donde $m(x) = x^8 + x^4 + x^3 + x + 1$. En consecuencia, podemos expresar cada elemento de GF$(2^8)$ de alguna de las siguientes formas:
+\begin{enumerate}
+  \item Como el único representante de su clase de grado inferior a 8.
+  \item Por la representación binaria correspondiente a la lista de los coeficientes del representante.
+  \item Por la representación hexadecimal correspondiente a la representación binaria mencionada anteriormente.
 \end{enumerate}
 \end{sol}
 
@@ -237,9 +253,7 @@ La tabla de sustitución es una matriz cuadrada de orden 16 (no simétrica), que
   En la criptosistemas de cifrado simétrico, emisor y receptor acuerdan una misma clave $k$ que marca como funcionarán las funciones de cifrado y descifrado $E_k$ y $D_k$. Este esquema presenta las siguientes limitaciones:
 
 \begin{itemize}
-\item Es necesario que se produzca un intercambio inicial de la clave antes de poder establecer la comunicación cifrada. Este es uno de los mayores problemas de la criptografía clásica, pues salvo en contadas ocasiones este intercambio se realiza por un canal potencialmente inseguro.
-
-%Si bien, se pudieron vadear en un inicio por medios militares y personas de confianza, esto se hace imposible cuando, por ejemplo, estamos hablando de encriptar transacciones comerciales donde los involucrados son completos desconocidos. Además el coste de este intercambio es demasiado alto considerando la posibilidad de que no se vuelva a necesitar nunca más el canal.
+\item Es necesario que se produzca un intercambio inicial de la clave antes de poder establecer la comunicación cifrada. Este es uno de los mayores problemas de la criptografía clásica, pues no siempre es posible garantizar un canal seguro de comunicación para dicho intercambio.
 
 \item Cuando consideramos una red de usuarios que quieren comunicarse entre sí, cada par de usuarios debe tener una clave distinta para maximizar la seguridad. Esto hace que tengamos un ratio de crecimiento del número de claves cuadrático en relación al tamaño de la red, por lo que no es un sistema escalable. Por ejemplo, con 10 usuarios necesitamos 45 claves diferentes, con 100 usuarios necesitamos 4950 claves, y en general para $n$ usuarios necesitamos $n(n-1)/2$ claves distintas.
 
@@ -248,16 +262,17 @@ Es por esto que no es fácil añadir un usuario a la red, pues es preciso actual
 \item Estos sistemas también adolecen de falta de crédito, ya que cualquier persona que obtenga la clave compartida por dos usuarios puede formar parte de la comunicación. Si Alice y Bob comparten una clave secreta y se da que Carol la descubre, esta puede interceptar los mensajes de Alice a Bob y modificarlos sin que Bob lo descubra, o suplantar la identidad de Alice mandando mensajes a Bob. También es posible que Bob envíe mensajes falsos y después se encubra en esta posibilidad para eximirse de las culpas.
 \end{itemize}
 
-La llegada de los criptosistemas de clave pública aporta soluciones a estos problemas. En este nuevo esquema cada usuario tiene una clave de cifrado $k_e$ pública, que comparte con el resto de usuarios, y una clave de descifrado privada $k_d$, que solo él conoce.
+La llegada de los criptosistemas de clave pública aporta soluciones a estos problemas. En este nuevo esquema cada usuario tiene una clave de cifrado pública, que comparte con el resto de usuarios, y una clave de descifrado privada, que solo él o ella conoce.
 
 \begin{itemize}
   \item Ya no es necesario que se produzca el intercambio inicial de claves, pues las claves de cifrado de cada usuario son conocidas por todos los demás (el conocimiento de la misma no permite el descifrado).
 
   \item Solo se mantienen dos claves por cada usuario del círculo, lo que elimina los problemas de creación y mantenimiento de la base de datos. Más aún, en la base de datos solo se guarda la clave pública de cada usuario, reduciendo considerablemente el tamaño de esta.
 
-\item Es posible implementar un sistema de comunicación que garantice la \textit{autenticación} de usuarios, la \textit{integridad} de mensajes y la \textit{no repudiabilidad} mediante un protocolo de firma de mensajes. De esta forma, el receptor podrá garantizar que el mensaje no ha sido modificado y que solo puede provenir de la persona que en teoría lo ha enviado.
+\item Es posible implementar un sistema de comunicación que garantice la \textit{autenticación} de usuarios, la \textit{integridad} de mensajes y la \textit{no repudiabilidad} mediante un protocolo de firma de mensajes. De esta forma, el receptor podrá garantizar que el mensaje no ha sido modificado y que solo puede provenir de la persona que en teoría lo ha enviado. Además, la firma depende del contenido del mensaje, por lo que nadie puede usarla con otro documento.
 
-%TODO: Deberíamos explicar 
+%TODO: Deberíamos explicar cómo funciona la firma?
+
 \end{itemize}
 \end{sol}
 
@@ -266,24 +281,33 @@ La llegada de los criptosistemas de clave pública aporta soluciones a estos pro
 \end{ejer}
 \begin{sol}
 
-  El sistema de clave pública fue inventado para el manejo de claves secretas. En este dos clave $pub$ y $priv$ determinan dos funciones $E$ y $D$ respectivamente cumpliendo que $E$ y $D$ son biyecciones e inversas.
+  Los sistemas criptográficos de clave pública fueron inventados para el manejo de claves secretas. En estos sistemas, cada usuario usa dos claves: una clave de cifrado $k_e$ (pública) y otra clave de descifrado $k_d$ (privada), que determinan las funciones $E = E_{k_e}$ y $D = D_{k_d}$, respectivamente. Para que el sistema funcione correctamente, para todo mensaje $m$ debe cumplirse que $D(E(m)) = m$.
 
-  Se considera la función $E$ como función de cifrado, es conocida por todo el mundo y a su clave asociada como clave pública. De forma análoga la función $D$ se usa como función de descifrado, solo la conoce el creador de estas funciones y su clave asociada es la clave privada. Así, si alguien quiere enviar un mensaje a este creador, encripta con la función $E$ de acceso público el mensaje y posteriormente lo envía, de modo que solo será capaz de desencriptarlo el receptor. Notese que el emisor tampoco es capaz de desencriptar el mensaje ni ha hecho falta realizar un intercambio previo de claves.
+  Cualquiera que desee mandar un mensaje confidencial a otra persona lo cifrará empleando la función de cifrado asociada a la clave pública de esta persona, que es conocida, confiando en que solo el poseedor de la clave privada asociada podrá descifrarlo. Nótese que ni siquiera el emisor sería capaz de descifrar el mensaje, y que no ha hecho falta realizar un intercambio previo de claves.
 
-  Para implementar este sistema se necesita una función unidireccional trampa. Esta debe ser una función $f$ que sea \emph{fácil} de calcular, pero que su inversa $f^{-1}$ sea \emph{difícil} de calcular solo conociendo $f$. Esto es lógico, pues si no la privacidad de $D$ estaría comprometida al ser $E$ pública. Además debe existir una \emph{trampa} que haga que $f^{-1}$ sea de fácil cálculo. Esta \emph{trampa} será la clave privada o al menos deberá depender de ella y ser calculable a partir de esta en un modo eficiente. Ejemplos de funciones trampa serían:
+  Para que el sistema sea práctico, es necesario que se pueda calcular $E(m)$ y $D(E(m))$ rápidamente, pero por seguridad debería ser imposible determinar $D$ a partir de $E$ en un tiempo razonable. Esto es lógico, pues si no la confidencialidad de $D$ estaría comprometida al ser $E$ pública.
 
-  \begin{itemize}
-  \item $f(x) := g^x mod n,\ g,x,n\in \mathbb{N}$ 
-  \item $f(pq) := pq,\ pq\in \mathbb{N}$ 
-  \end{itemize}
+  Teóricamente estos sistemas podrían construirse a partir de una \textit{función unidireccional trampa}. Esta debe ser una función $f$ que sea \emph{fácil} de calcular, pero que su inversa $f^{-1}$ sea \emph{difícil} de calcular sin una información adicional conocida como \textit{trampa}. En el contexto criptográfico dicha trampa estará asociada a la clave privada, de forma que solo el receptor tenga la información necesaria para determinar el algoritmo de descifrado a partir de $f$. Subrayamos que la existencia de funciones unidireccionales no ha sido demostrada, y de hecho de existir alguna se tendría necesariamente que $P \neq NP$ \footnote{Alan L. Selman. \textit{A survey of one-way functions in complexity theory}. Mathematical systems theory, 25(3):203–221, 1992.}.
 
-  La firma funciona del siguiente modo:  sean $A = \{ E_a, D_a \}$ las funciones de Alice y $B = \{ E_b, D_b \}$ las funciones de Bob. Para que Alice envíe un mensaje a Bob encripta el mensaje $m$ con $E_b(D_a(m))$. Cuando Bob lo recibe, primeramente lo desencipta con su función privada, y posteriormente para comprobar que efectivamente es de Alice lo desencripta con su función pública. Así se sabe que es de Alice y solo puede ser suyo pues es la única que posee la función inversa de $E_a$.En la criptosistemas de clave simétrica, emisor y receptor acuerdan una clave $k$ que marca como funcionaran las funciones $E_k$ y $D_k$, y cualquier persona que tenga esta clave puede entrar en la comunicación.
+  Un ejemplo de función cuya unidireccionalidad ha sido conjeturada es $(p, q) \mapsto pq$, donde $p$ y $q$ son primos. El problema de descomponer un número en sus factores primos se conoce como \href{https://en.wikipedia.org/wiki/Integer_factorization}{problema de factorización}, y es considerado extremadamente difícil a día de hoy. Esta función es la que se utiliza para implementar el criptosistema de clave pública RSA, donde la trampa es, por ejemplo, el conocimiento de la \textit{función phi de Euler} $\Phi(pq)$.
+
+  A partir de estos sistemas es posible implementar un protocolo de firma.
+  Por ejemplo, si suponemos que las funciones $E$ y $D$ son biyectivas e inversas, la firma funcionaría del siguiente modo. Sean $\{ E_a, D_a \}$ las funciones de cifrado y descifrado de Alice y $\{ E_b, D_b \}$ las correspondientes funciones de Bob. Si Alice quiere enviar a Bob un mensaje cifrado y firmado, se procede como sigue:
+
+  \begin{enumerate}
+    \item Alice cifra el mensaje con su clave privada, es decir, calcula $D_a(m)$.
+    \item Cifra el mensaje de nuevo, pero esta vez utilizando la clave pública de Bob. Envía a Bob $E_b(D_a(m))$.
+    \item Bob recupera $D_a(m)$ aplicando su función privada de descifrado, $D_b$.
+    \item Finalmente Bob recupera el texto plano descifrando el mensaje con la clave pública de Alice: $E_a(D_a(m)) = m$. Es aquí donde se emplea la hipótesis extra de que $E \circ D = 1$.
+  \end{enumerate}
+
+  De esta forma se sigue garantizando la confidencialidad, pues solo Bob puede descifrar la primera capa del mensaje mediante su clave privada. Además, puede estar seguro de que el mensaje proviene de Alice (o, al menos, de alguien que posea su clave privada), pues el procedimiento solo tiene éxito si la segunda capa fue cifrada con la clave privada de Alice.
 
 \end{sol}
 
 
 \begin{ejer}
-  Enumerar resumidamente las precauciones más destacables a tomar al generar un cículo de comunicación basado en RSA.
+  Enumerar resumidamente las precauciones más destacables a tomar al generar un círculo de comunicación basado en RSA.
 \end{ejer}
 
 \begin{sol}
@@ -301,8 +325,38 @@ La llegada de los criptosistemas de clave pública aporta soluciones a estos pro
 \end{sol}
 
 \begin{ejer}
-  Protocolo de intercambio de llaves según el esquema de Diffie-Hellman y explicación de su supuesta fortaleza.
+  Protocolo de intercambio de claves según el esquema de Diffie-Hellman y explicación de su supuesta fortaleza.
 \end{ejer}
+
+\begin{sol}
+  El protocolo de intercambio de claves de Diffie-Hellman permite que ambas partes de una comunicación se pongan de acuerdo en una clave secreta sin tener que compartirla explícitamente a través de un canal potencialmente inseguro. Dicha clave podrá ser usada posteriormente, por ejemplo, como clave de un sistema de cifrado simétrico.
+  El funcionamiento para dos usuarios, que puede ser extendido a un número arbitrario de participantes, es el siguiente:
+  \begin{enumerate}
+    \item Ambos usuarios se ponen de acuerdo en un primo elevado $n$ y eligen un generador $g$ del grupo cíclico GF$(n)^\ast$. La pareja $\langle n, g \rangle$ no tiene por qué ser secreta.
+    \item Cada usuario genera un número aleatorio elevado \(x_i\) de forma independiente. Dicho número acuará como \textit{clave privada} y se guarda en secreto.
+    \item Cada usuario hace público el número $y_i = g^{x_i} \bmod n$, que actuará como \textit{clave pública}.
+    \item Ahora ambos usuarios pueden utilizar la clave \(K = \cramped{g^{x_ix_j}} \bmod n\) para comunicarse de forma segura.
+    El usuario \(i\) obtiene la clave \(K\) a partir del número público \(y_j\), realizando las operaciones \begin{align*}
+      K &= y_j^{x_i} \bmod n \\
+        &= (g^{x_j})^{x_i} \bmod n \\
+        &= g^{x_jx_i} \bmod n \\
+        &= g^{x_ix_j} \bmod n.
+    \end{align*}
+    El usuario \(j\) obtiene la clave de forma análoga, calculando en su caso \[K = y_i^{x_j} \bmod n.\]
+  \end{enumerate}
+
+  Si una tercera persona intercepta los mensajes intercambiados en este protocolo con el fin de averiguar la clave \(K\), tendría que obtenerla partir de $g, n$, \(y_i\) e \(y_j\). En definitiva, estaría ante una situación como la siguiente:
+  \begin{displayquote}
+    Si \(G = \langle g \rangle\) es un grupo y se conocen los valores $g^a$ y $g^b$, encuentra el valor de $g^{ab}$.
+  \end{displayquote}
+  Este problema se denomina \textit{problema de Diffie-Hellman}.
+  Para algunos primos, resolver este problema presenta una dificultad equivalente a resolver el \textit{problema del logaritmo discreto} para \(y_i\) ó \(y_j\). Por ejemplo, el atacante podría intentar calcular \[K = y_i^{\left(log_{g} y_j\right)} \bmod n.\] Este último problema puede enunciarse en general como: \begin{displayquote}
+    Sea \(G\) un grupo y \(g \in G\). Dado \(a \in \langle g \rangle\), encuentra \(x\) tal que \(g^x = a\).
+  \end{displayquote}
+
+  Hasta ahora no se ha encontrado ningún algoritmo que resuelva el problema del logaritmo discreto en tiempo polinómico en el tamaño de la entrada, y es de hecho considerado intratable computacionalmente.
+  El problema de Diffie-Hellman es en consecuencia intratable para ciertos grupos, y en ello radica finalmente la seguridad del protocolo homónimo. Para maximizar la seguridad es recomendable que $n$ sea un \textit{primo seguro} de 512 bits o incluso de 1024 bits.
+\end{sol}
 
 \begin{ejer}
   El criptosistema de ElGamal.
@@ -313,7 +367,7 @@ El criptosistema de ElGamal es un criptosistema de clave pública propuesto por 
 
 \subsubsection*{Preliminares}
 
-En primer lugar, se debe elegir un primo $p$ elevado y un elemento primitivo $g \in GF(p)^\ast$. Suponemos que las unidades de texto llano estarán expresadas en números de $GF(p)$, y llamamos $q = |GF(p)^\ast| = p -1$. Ahora, cada usuario elige aleatoriamente un valor $x$ con $0 < x < q$, que será su clave privada. La clave pública será $y = g^x \bmod p$.
+En primer lugar, se debe elegir un primo $p$ elevado y un elemento  $g \in$ GF$(p)^\ast$. Es preferible, aunque no absolutamente necesario, que $g$ sea un elemento primitivo de GF$(p)$, es decir, un generador del grupo cíclico GF$(p)^\ast$. Suponemos que las unidades de texto llano estarán expresadas en números de GF$(p)$, y llamamos $q = |$GF$(p)^\ast| = p -1$. Ahora, cada usuario elige aleatoriamente un valor $x$ con $0 < x < q$, que será su clave privada. La clave pública será $y = g^x \bmod p$.
 
 \subsubsection*{Cifrando el mensaje}
 
@@ -323,10 +377,10 @@ Supongamos que Alice quiere compartir con Bob un mensaje \(0\leq m \leq q\). Par
 
 Cuando Bob recibe el mensaje de Alice obtiene una pareja de números $\langle c_1, c_2 \rangle$ menores que $p$. Para descifrarlo hace lo siguiente:
 
-\begin{itemize}
+\begin{enumerate}
   \item Calcula el valor de $K$ a partir de su clave privada, sin más que observar que $c_1^{x_B} = g^{x_Ax_B} \bmod p = y_B^{x_A} \bmod p = K$.
   \item Ahora calcula el inverso de $K$ módulo $p$ y computa el valor de $m$ haciendo $c_2K^{-1} \bmod p = mKK^{-1} \bmod p = m$, lo que le permite recuperar el texto plano.
-\end{itemize}
+\end{enumerate}
 
 \subsubsection*{Vulnerabilidades}
 
@@ -345,7 +399,7 @@ La seguridad de este criptosistema reside en la dificultad de cálculo del logar
 \end{ejer}
 
 \begin{sol}
-  En primer lugar es necesario introducir el concepto de \textit{función hash}. Se trata de una función $H$ que transforma un \textit{input} de longitud arbitraria en una lista de longitud fija de unos cuantos bits, usualmente entre 128 y 512. Debe ser una función de una vía, es decir, que sea sencillo calcular el valor de $H(x)$ a partir de $x$ pero computacionalmente intratable calcular $x$ a partir de $H(x)$, y también que sea muy difícil encontrar $x$ y $x'$ distintos tales que $H(x)=H(x')$.
+  En primer lugar es necesario introducir el concepto de \textit{función hash}. Se trata de una función $H$ que transforma un \textit{input} de longitud arbitraria en una lista de longitud fija de unos cuantos bits, usualmente entre 128 y 512. Debe ser una función para la que sencillo calcular el valor de $H(x)$ a partir de $x$ pero computacionalmente intratable calcular $x$ a partir de $H(x)$, y también que sea muy difícil encontrar $x$ y $x'$ distintos tales que $H(x)=H(x')$.
 
   El algoritmo de firma estándar (DSA) fue propuesto en 1991, y sigue un esquema basado en el problema del logaritmo discreto. Supongamos que Alice quiere enviar a Bob un mensaje firmado, y consideremos fijada una función hash $H$.
 
@@ -380,5 +434,15 @@ La seguridad de este criptosistema reside en la dificultad de cálculo del logar
 \begin{ejer}
   Rasgos esenciales de SSH: cifrado, funcionamiento, negociación de cifrado para la sesión y autenticación del acceso del usuario al servidor
 \end{ejer}
+
+\begin{sol}
+  SSH es un protocolo que se utiliza para conectarse a un servidor de forma remota. Cifra las comunicaciones entre el cliente y el servidor utilizando cifrado simétrico y asimétrico. También se utilizan técnicas de hashing criptográfico para asegurar la integridad de los mensajes cifrados. El protocolo puede utilizar distintos tipos de cifrado simétrico y asimétrico dependiendo de los algoritmos que soporte cada maquina.
+
+  En primer lugar el cliente establece una comunicación de tipo TCP con el servidor. Si ambas maquinas tienen versiones compatibles, se negocia el cifrado para la sesión. En cada sesión las maquinas establecen unas claves publicas y privadas y con un esquema de tipo Diffie-Hellman se intercambian claves para el cifrado simétrico. Estas claves que intervienen en el cifrado simétrico se generan cada sesión. Una vez el host y el cliente poseen las claves de cifrado simétrico comienza la autenticación del usuario.
+
+  Esta segunda etapa, la de autenticación del usuario, se puede realizar mediante contraseña o usando pares de claves SSH. En el primer caso el servidor solicita una contraseña al usuario y el usuario responde. La información enviada está cifrada con el algoritmo simétrico por lo que la comunicación es segura. En el segundo caso, la alternativa mas popular, el servidor almacena una clave publica del cliente que utiliza para cifrar un mensaje que envía al cliente. Si el cliente consigue descifrar el mensaje y devolvérselo al servidor, demuestra que esta en posesión de la clave privada con lo cual termina la autenticación.
+
+  En ambas etapas la integridad de los mensajes se asegura gracias a un hash criptográfico. Al negociar la clave de sesión para el cifrado simétrico del mensaje el mensaje cifrado con el esquema Diffie-Hellman va acompañado de un MAC (``message authentication code ``). También cada mensaje que se envía esta acompañado de un MAC. El algoritmo empleado para hacer el hashing criptográfico es el primero de la lista de las opciones del cliente.
+\end{sol}
 
 \end{document}
