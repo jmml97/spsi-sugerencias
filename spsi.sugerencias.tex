@@ -315,31 +315,33 @@ La llegada de los criptosistemas de clave pública aporta soluciones a estos pro
 \end{ejer}
 
 \begin{sol}
-  El protocolo de intercambio de claves de Diffie-Hellman permite que ambas partes de una comunicación se pongan de acuerdo en una clave secreta sin tener que compartirla explícitamente a través de un canal potencialmente inseguro.
-  El funcionamiento del mismo es el siguiente: \begin{enumerate}
-    \item Ambos usuarios se ponen de acuerdo en un grupo finito \(\mathbb F_q\) de orden un número primo \(q\) y en un elemento \(\alpha\) que es una \textit{raíz primitiva módulo} \(q\). Esto quiere decir que todo número coprimo con \(q\) es congruente a una potencia de \(\alpha\) módulo \(q\).
-    \item Cada usuario genera un número aleatorio \(X_i\) de forma independiente dentro del rango de enteros \(\{1, 2, \dots, q - 1\}\).
-    Dicho número se conoce como \textit{clave privada} y se guarda en secreto.
-    \item Cada usuario hace público el número \[Y_i = \alpha^{X_i} \mod q,\] conocido como \textit{clave pública}.
-    \item Ahora ambos usuarios pueden utilizar la clave \(K_{ij} = \cramped{\alpha^{X_iX_j}} \bmod q\) para comunicarse de forma segura.
-    El usuario \(i\) obtiene la clave \(K_{ij}\) a partir del número público \(Y_j\), realizando las operaciones \begin{align*}
-      K_{ij} &= Y_j^{X_i} \mod q \\
-        &= (\alpha^{X_j})^{X_i} \mod q \\
-        &= \alpha^{X_jX_i} \mod q \\
-        &= \alpha^{X_iX_j} \mod q.
+  El protocolo de intercambio de claves de Diffie-Hellman permite que ambas partes de una comunicación se pongan de acuerdo en una clave secreta sin tener que compartirla explícitamente a través de un canal potencialmente inseguro. Dicha clave podrá ser usada posteriormente, por ejemplo, como clave de un sistema de cifrado simétrico.
+  El funcionamiento para dos usuarios, que puede ser extendido a un número arbitrario de participantes, es el siguiente:
+  \begin{enumerate}
+    \item Ambos usuarios se ponen de acuerdo en un primo elevado $n$ y eligen un generador $g$ del grupo cíclico $GF(n)^\ast$. La pareja $\langle n, g \rangle$ no tiene por qué ser secreta.
+    \item Cada usuario genera un número aleatorio elevado \(x_i\) de forma independiente. Dicho número acuará como \textit{clave privada} y se guarda en secreto.
+    \item Cada usuario hace público el número $y_i = g^{x_i} \bmod n$, que actuará como \textit{clave pública}.
+    \item Ahora ambos usuarios pueden utilizar la clave \(K = \cramped{g^{x_ix_j}} \bmod n\) para comunicarse de forma segura.
+    El usuario \(i\) obtiene la clave \(K\) a partir del número público \(y_j\), realizando las operaciones \begin{align*}
+      K &= y_j^{x_i} \bmod n \\
+        &= (g^{x_j})^{x_i} \bmod n \\
+        &= g^{x_jx_i} \bmod n \\
+        &= g^{x_ix_j} \bmod n.
     \end{align*}
-    El usuario \(j\) obtiene la clave de forma análoga, calculando en su caso \[K_{ij} = Y_i^{X_j} \mod q.\]
+    El usuario \(j\) obtiene la clave de forma análoga, calculando en su caso \[K = y_i^{x_j} \bmod n.\]
   \end{enumerate}
 
-  Si una tercera persona intercepta los mensajes intercambiados en este protocolo con el fin de averiguar la clave \(K_{ij}\), tendría que obtenerla partir de \(Y_i\) e \(Y_j\).
-  Para ello necesitaría calcular, por ejemplo, \[K_{ij} = Y_i^{\left(log_{\alpha} Y_j\right)} \mod q.\]
+  Si una tercera persona intercepta los mensajes intercambiados en este protocolo con el fin de averiguar la clave \(K\), tendría que obtenerla partir de $g, n$, \(y_i\) e \(y_j\). En definitiva, estaría ante una situación como la siguiente:
+  \begin{displayquote}
+    Si \(G = \langle g \rangle\) es un grupo y se conocen los valores $g^x$ y $g^y$, encuentra el valor de $g^{xy}$.
+  \end{displayquote}
   Este problema se denomina \textit{problema de Diffie-Hellman}.
-  Para algunos primos, resolver este problema es equivalente a resolver el \textit{problema del logaritmo discreto} para alguno de los valores \(Y_i\) o \(Y_j\). Este último problema puede enunciarse como: \begin{displayquote}
-    Sea \(G\) un grupo y \(\langle g \rangle\) el subgrupo cíclico generado por \(g\). Dado \(g \in G\) y \(a \in \langle g \rangle\), encuentra \(x\) tal que \(g^x = a\).
+  Para algunos primos, resolver este problema presenta una dificultad equivalente a resolver el \textit{problema del logaritmo discreto} para alguno de los valores \(y_i\) o \(y_j\). Por ejemplo, el atacante podría intentar calcular \[K = y_i^{\left(log_{g} y_j\right)} \bmod n.\] Este último problema puede enunciarse en general como: \begin{displayquote}
+    Sea \(G\) un grupo y \(g \in G\). Dado \(a \in \langle g \rangle\), encuentra \(x\) tal que \(g^x = a\).
   \end{displayquote}
 
-  Hasta ahora no se ha encontrado ningún algoritmo que resuelva el problema del logaritmo discreto en tiempo polinómico, y es de hecho considerado intratable.
-  El problema de Diffie-Hellman es en consecuencia intratable para ciertos grupos, y en ello radica finalmente la seguridad del protocolo homónimo.
+  Hasta ahora no se ha encontrado ningún algoritmo que resuelva el problema del logaritmo discreto en tiempo polinómico, y es de hecho considerado intratable computacionalmente.
+  El problema de Diffie-Hellman es en consecuencia intratable para ciertos grupos, y en ello radica finalmente la seguridad del protocolo homónimo. Para maximizar la seguridad es recomendable que $n$ sea un \textit{primo seguro} de 512 bits o incluso de 1024 bits.
 \end{sol}
 
 \begin{ejer}
