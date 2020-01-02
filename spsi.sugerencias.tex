@@ -273,7 +273,7 @@ La llegada de los criptosistemas de clave pública aporta soluciones a estos pro
 
   Para que el sistema sea práctico, es necesario que se pueda calcular $E(m)$ y $D(E(m))$ rápidamente, pero por seguridad debería ser imposible determinar $D$ a partir de $E$ en un tiempo razonable. Esto es lógico, pues si no la confidencialidad de $D$ estaría comprometida al ser $E$ pública.
 
-  Téoricamente estos sistemas podrían construirse a partir de una \textit{función unidireccional trampa}. Esta debe ser una función $f$ que sea \emph{fácil} de calcular, pero que su inversa $f^{-1}$ sea \emph{difícil} de calcular sin una información adicional conocida como \textit{trampa}. En el contexto criptográfico dicha trampa estará asociada a la clave privada, de forma que solo el receptor tenga la información necesaria para determinar el algoritmo de descifrado a partir de $f$. Subrayamos que la existencia de funciones unidireccionales no ha sido demostrada, y de hecho de existir alguna se tendría necesariamente que $P \neq NP$ \footnote{Alan L. Selman. \textit{A survey of one-way functions in complexity theory}. Mathematical systems theory, 25(3):203–221, 1992.}.
+  Teóricamente estos sistemas podrían construirse a partir de una \textit{función unidireccional trampa}. Esta debe ser una función $f$ que sea \emph{fácil} de calcular, pero que su inversa $f^{-1}$ sea \emph{difícil} de calcular sin una información adicional conocida como \textit{trampa}. En el contexto criptográfico dicha trampa estará asociada a la clave privada, de forma que solo el receptor tenga la información necesaria para determinar el algoritmo de descifrado a partir de $f$. Subrayamos que la existencia de funciones unidireccionales no ha sido demostrada, y de hecho de existir alguna se tendría necesariamente que $P \neq NP$ \footnote{Alan L. Selman. \textit{A survey of one-way functions in complexity theory}. Mathematical systems theory, 25(3):203–221, 1992.}.
 
   Un ejemplo de función cuya unidireccionalidad ha sido conjeturada es $(p, q) \mapsto pq$, donde $p$ y $q$ son primos. El problema de descomponer un número en sus factores primos se conoce como \href{https://en.wikipedia.org/wiki/Integer_factorization}{problema de factorización}, y es considerado extremadamente difícil a día de hoy. Esta función es la que se utiliza para implementar el criptosistema de clave pública RSA, donde la trampa es, por ejemplo, el conocimiento de la \textit{función phi de Euler} $\Phi(pq)$.
 
@@ -293,7 +293,7 @@ La llegada de los criptosistemas de clave pública aporta soluciones a estos pro
 
 
 \begin{ejer}
-  Enumerar resumidamente las precauciones más destacables a tomar al generar un cículo de comunicación basado en RSA.
+  Enumerar resumidamente las precauciones más destacables a tomar al generar un círculo de comunicación basado en RSA.
 \end{ejer}
 
 \begin{sol}
@@ -422,13 +422,13 @@ La seguridad de este criptosistema reside en la dificultad de cálculo del logar
 \end{ejer}
 
 \begin{sol}
-  SSH es un protocolo que se utiliza para conectarse a un servidor de forma remota. Cifra las comunicaciones entre el cliente y el servidor utilizando cifrado simetrico y asimetrico. Tambien se utilizan tecnicas de hashing criptografico para asegurar la integridad de los mensajes cifrados. El protocolo puede utilizar distintos tipos de cifrado simetrico y asimetrico dependiendo de los algoritmos que soporte cada maquina.
+  SSH es un protocolo que se utiliza para conectarse a un servidor de forma remota. Cifra las comunicaciones entre el cliente y el servidor utilizando cifrado simétrico y asimétrico. También se utilizan técnicas de hashing criptográfico para asegurar la integridad de los mensajes cifrados. El protocolo puede utilizar distintos tipos de cifrado simétrico y asimétrico dependiendo de los algoritmos que soporte cada maquina.
 
-  En primer lugar el cliente establece una comunicacion de tipo TCP con el servidor. Si ambas maquinas tienen versiones compatibles se negocia el cifrado para la sesion. En cada sesion las maquinas establecen unas claves publicas y privadas y con un esquema de tipo Diffie-Hellman se intercambian claves para el cifrado simetrico. Estas claves que intervienen en el cifrado simetrico se generan cada sesion. Una vez el host y el cliente poseen las claves de cifrado simetrico comienza la autenticacion del usuario.
+  En primer lugar el cliente establece una comunicación de tipo TCP con el servidor. Si ambas maquinas tienen versiones compatibles se negocia el cifrado para la sesión. En cada sesión las maquinas establecen unas claves publicas y privadas y con un esquema de tipo Diffie-Hellman se intercambian claves para el cifrado simétrico. Estas claves que intervienen en el cifrado simétrico se generan cada sesión. Una vez el host y el cliente poseen las claves de cifrado simétrico comienza la autenticación del usuario.
   
-  Esta segunda etapa, la de autenticacion del usuario, se puede realizar mediante contrasena o usando pares de claves SSH. En el primer caso el servidor solicita una contrasena al usuario y el usuario responde. La informacion enviada estu cifrada con el algoritmo simetrico por lo que la comunicacion es segura. En el segundo caso, la alternativa mas popular, el servidor almacena una clave publica del cliente que utiliza para cifrar un mensaje que envia al cliente. Si el cliente consigue descifrar el mensaje y devolverselo al servidor demuestra que esta en posesion de la clave privada con lo cual termina la autenticacion.
+  Esta segunda etapa, la de autenticación del usuario, se puede realizar mediante contraseña o usando pares de claves SSH. En el primer caso el servidor solicita una contraseña al usuario y el usuario responde. La información enviada está cifrada con el algoritmo simétrico por lo que la comunicación es segura. En el segundo caso, la alternativa mas popular, el servidor almacena una clave publica del cliente que utiliza para cifrar un mensaje que envía al cliente. Si el cliente consigue descifrar el mensaje y devolvérselo al servidor demuestra que esta en posesión de la clave privada con lo cual termina la autenticación.
 
-  En ambas etapas la integridad de los mensajes se asegura gracias a un hash criptografico. Al negociar la clave de sesion para el cifrado simetrico del mensaje el mensaje cifrado con el esquema diffie-hellman va acompanado de un MAC (``message authentication code ``). Tambien cada mensaje que se envia esta acompanado de un MAC. El algoritmo empleado para hacer el hashing criptografico es el primero de la lista de las opciones del cliente.
+  En ambas etapas la integridad de los mensajes se asegura gracias a un hash criptográfico. Al negociar la clave de sesión para el cifrado simétrico del mensaje el mensaje cifrado con el esquema Diffie-Hellman va acompañado de un MAC (``message authentication code ``). También cada mensaje que se envía esta acompañado de un MAC. El algoritmo empleado para hacer el hashing criptográfico es el primero de la lista de las opciones del cliente.
 \end{sol}
 
 \end{document}
