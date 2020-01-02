@@ -333,14 +333,14 @@ La llegada de los criptosistemas de clave pública aporta soluciones a estos pro
 
   Si una tercera persona intercepta los mensajes intercambiados en este protocolo con el fin de averiguar la clave \(K\), tendría que obtenerla partir de $g, n$, \(y_i\) e \(y_j\). En definitiva, estaría ante una situación como la siguiente:
   \begin{displayquote}
-    Si \(G = \langle g \rangle\) es un grupo y se conocen los valores $g^x$ y $g^y$, encuentra el valor de $g^{xy}$.
+    Si \(G = \langle g \rangle\) es un grupo y se conocen los valores $g^a$ y $g^b$, encuentra el valor de $g^{ab}$.
   \end{displayquote}
   Este problema se denomina \textit{problema de Diffie-Hellman}.
   Para algunos primos, resolver este problema presenta una dificultad equivalente a resolver el \textit{problema del logaritmo discreto} para alguno de los valores \(y_i\) o \(y_j\). Por ejemplo, el atacante podría intentar calcular \[K = y_i^{\left(log_{g} y_j\right)} \bmod n.\] Este último problema puede enunciarse en general como: \begin{displayquote}
     Sea \(G\) un grupo y \(g \in G\). Dado \(a \in \langle g \rangle\), encuentra \(x\) tal que \(g^x = a\).
   \end{displayquote}
 
-  Hasta ahora no se ha encontrado ningún algoritmo que resuelva el problema del logaritmo discreto en tiempo polinómico, y es de hecho considerado intratable computacionalmente.
+  Hasta ahora no se ha encontrado ningún algoritmo que resuelva el problema del logaritmo discreto en tiempo polinómico en el tamaño de la entrada, y es de hecho considerado intratable computacionalmente.
   El problema de Diffie-Hellman es en consecuencia intratable para ciertos grupos, y en ello radica finalmente la seguridad del protocolo homónimo. Para maximizar la seguridad es recomendable que $n$ sea un \textit{primo seguro} de 512 bits o incluso de 1024 bits.
 \end{sol}
 
