@@ -421,4 +421,14 @@ La seguridad de este criptosistema reside en la dificultad de cálculo del logar
   Rasgos esenciales de SSH: cifrado, funcionamiento, negociación de cifrado para la sesión y autenticación del acceso del usuario al servidor
 \end{ejer}
 
+\begin{sol}
+  SSH es un protocolo que se utiliza para conectarse a un servidor de forma remota. Cifra las comunicaciones entre el cliente y el servidor utilizando cifrado simetrico y asimetrico. Tambien se utilizan tecnicas de hashing criptografico para asegurar la integridad de los mensajes cifrados. El protocolo puede utilizar distintos tipos de cifrado simetrico y asimetrico dependiendo de los algoritmos que soporte cada maquina.
+
+  En primer lugar el cliente establece una comunicacion de tipo TCP con el servidor. Si ambas maquinas tienen versiones compatibles se negocia el cifrado para la sesion. En cada sesion las maquinas establecen unas claves publicas y privadas y con un esquema de tipo Diffie-Hellman se intercambian claves para el cifrado simetrico. Estas claves que intervienen en el cifrado simetrico se generan cada sesion. Una vez el host y el cliente poseen las claves de cifrado simetrico comienza la autenticacion del usuario.
+  
+  Esta segunda etapa, la de autenticacion del usuario, se puede realizar mediante contrasena o usando pares de claves SSH. En el primer caso el servidor solicita una contrasena al usuario y el usuario responde. La informacion enviada estu cifrada con el algoritmo simetrico por lo que la comunicacion es segura. En el segundo caso, la alternativa mas popular, el servidor almacena una clave publica del cliente que utiliza para cifrar un mensaje que envia al cliente. Si el cliente consigue descifrar el mensaje y devolverselo al servidor demuestra que esta en posesion de la clave privada con lo cual termina la autenticacion.
+
+  En ambas etapas la integridad de los mensajes se asegura gracias a un hash criptografico. Al negociar la clave de sesion para el cifrado simetrico del mensaje el mensaje cifrado con el esquema diffie-hellman va acompanado de un MAC (``message authentication code ``). Tambien cada mensaje que se envia esta acompanado de un MAC. El algoritmo empleado para hacer el hashing criptografico es el primero de la lista de las opciones del cliente.
+\end{sol}
+
 \end{document}
