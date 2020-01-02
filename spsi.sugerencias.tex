@@ -436,13 +436,49 @@ La seguridad de este criptosistema reside en la dificultad de cálculo del logar
 \end{ejer}
 
 \begin{sol}
-  SSH es un protocolo que se utiliza para conectarse a un servidor de forma remota. Cifra las comunicaciones entre el cliente y el servidor utilizando cifrado simétrico y asimétrico. También se utilizan técnicas de hashing criptográfico para asegurar la integridad de los mensajes cifrados. El protocolo puede utilizar distintos tipos de cifrado simétrico y asimétrico dependiendo de los algoritmos que soporte cada maquina.
+  SSH es un protocolo que se utiliza para conectarse a un servidor de forma remota. Después d econectarse, todos los comandos que escribe ens u terminal local se envían al servidor remoto y se ejecutan allí.
 
-  En primer lugar el cliente establece una comunicación de tipo TCP con el servidor. Si ambas maquinas tienen versiones compatibles, se negocia el cifrado para la sesión. En cada sesión las maquinas establecen unas claves publicas y privadas y con un esquema de tipo Diffie-Hellman se intercambian claves para el cifrado simétrico. Estas claves que intervienen en el cifrado simétrico se generan cada sesión. Una vez el host y el cliente poseen las claves de cifrado simétrico comienza la autenticación del usuario.
+  \subsubsection*{Cifrado}
+  A continuación nos referiremos a host al servidor remoto al que estamos intentando acceder y como cliente al equipo que estamos utilizando para acceder el host. La ventaja de de ssh es la utilización de tres tecnologías de cifrado diferentes:
+  \begin{enumerate}
+  \item Cifrado simétrico: Es utilizado para cifrar toda la comunicación durante una sesión SSH y  derivan la clave simétrica utilizando un algoritmo similar a Diffie-Hellman. Cada clave de cifrado simétrico es específica para cada sesión ssh y se genera antes de la autenticación del cliente, garantizando que todos los credenciales están protegidos incluyendo la clave escrita en la consola por el usuario.
+  \item Cifrado asimétrico: Es utilizado en varias ocasiones, siendo algunos de sus más importantes la generación de la clave de cifrado simétrico y la posible utilización para la autenticación del cliente tras haber cargado una clave pública en el host.
+  \item Hashing: Es utilizado principalmente para garantizar que el texto del mensaje recibido esté intacto(MAC, message authentication codes) y sin modificaciones puesto que la más mínima modificación en el mensaje producirá un hash totalmente diferente.
+  \end{enumerate}
 
-  Esta segunda etapa, la de autenticación del usuario, se puede realizar mediante contraseña o usando pares de claves SSH. En el primer caso el servidor solicita una contraseña al usuario y el usuario responde. La información enviada está cifrada con el algoritmo simétrico por lo que la comunicación es segura. En el segundo caso, la alternativa mas popular, el servidor almacena una clave publica del cliente que utiliza para cifrar un mensaje que envía al cliente. Si el cliente consigue descifrar el mensaje y devolvérselo al servidor, demuestra que esta en posesión de la clave privada con lo cual termina la autenticación.
+  %Cifra las comunicaciones entre el cliente y el servidor utilizando cifrado simétrico y asimétrico. También se utilizan técnicas de hashing criptográfico para asegurar la integridad de los mensajes cifrados. El protocolo puede utilizar distintos tipos de cifrado simétrico y asimétrico dependiendo de los algoritmos que soporte cada maquina.
 
-  En ambas etapas la integridad de los mensajes se asegura gracias a un hash criptográfico. Al negociar la clave de sesión para el cifrado simétrico del mensaje el mensaje cifrado con el esquema Diffie-Hellman va acompañado de un MAC (``message authentication code ``). También cada mensaje que se envía esta acompañado de un MAC. El algoritmo empleado para hacer el hashing criptográfico es el primero de la lista de las opciones del cliente.
+  \subsubsection*{Funcionamiento}
+  El protocolo SSH emplea un modelo cliente-servidor para autenticar a dos partes y cifrar los datos entre ellas. \\
+
+  El host escucha las peticiones en el puerto designado y es responsable de autenticar al cliente y de generar un entorno correcto cuando las credenciales sean aceptadas. Por otro lado, el cliente es responsable de iniciar la conexión TCP, proporcionar las credenciales para autenticarse y verificar la identidad del host. Ambos deben de asegurarse de negociar la conexión segura.\\
+
+  Consta de dos etapas, siendo que en la primera el cliente establece la comunicación TCP con el servidor y se establece el cifrado la proteger la comunicación futura. La segunda, es la autenticación del cliente y la comprobación de si este puede acceder o no al servidor.
+
+  \subsubsection*{Negociación de cifrado para la sesión}
+  %En primer lugar el cliente establece una comunicación de tipo TCP con el servidor. Si ambas maquinas tienen versiones compatibles, se negocia el cifrado para la sesión. En cada sesión las maquinas establecen unas claves publicas y privadas y con un esquema de tipo Diffie-Hellman se intercambian claves para el cifrado simétrico. Estas claves que intervienen en el cifrado simétrico se generan cada sesión. Una vez el host y el cliente poseen las claves de cifrado simétrico comienza la autenticación del usuario.
+
+  %Esta segunda etapa, la de autenticación del usuario, se puede realizar mediante contraseña o usando pares de claves SSH. En el primer caso el servidor solicita una contraseña al usuario y el usuario responde. La información enviada está cifrada con el algoritmo simétrico por lo que la comunicación es segura. En el segundo caso, la alternativa mas popular, el servidor almacena una clave publica del cliente que utiliza para cifrar un mensaje que envía al cliente. Si el cliente consigue descifrar el mensaje y devolvérselo al servidor, demuestra que esta en posesión de la clave privada con lo cual termina la autenticación.
+
+  Las claves de sesión se negocian utilizando una versión de Diffie-Hellman, cuyo procedimiento básico es:
+  \begin{enumerate}
+  \item Se acuerda un número primo grande, como valor inicial.
+  \item Se acuerda un generador de cifrado (generalmente AES) para manipular los de una manera predefinida.
+  \item Independientemente, cada parte se genera un número primo secreto que servirá como clave privada, distinto de la clave SSH utilizada para la autenticación.
+  \item Todo lo generado hasta ahora, se utiliza para generar la clave pública.
+  \item Intercambio de claves públicas.
+  \item Ambas partes generan de forma independiente la misma clave secreta compartida.
+  \item Con esta clave secreta compartida, se cifra toda la comunicación que sigue.
+  \end{enumerate}
+
+  %En ambas etapas la integridad de los mensajes se asegura gracias a un hash criptográfico. Al negociar la clave de sesión para el cifrado simétrico del mensaje el mensaje cifrado con el esquema Diffie-Hellman va acompañado de un MAC (``message authentication code ``). También cada mensaje que se envía esta acompañado de un MAC. El algoritmo empleado para hacer el hashing criptográfico es el primero de la lista de las opciones del cliente.
+
+  \subsubsection*{Autenticación}
+
+  El método más simple es la autenticación por contraseña y, aunque esta este cifrada, no se recomienda debido a las limitaciones de complejidad de la contraseña y a que secuencias de órdenes automatizadas pueden romperlas con facilidad.\\
+
+  La alternativa más popular y recomendada es el uso de pares de claves SSH asimétricas. El cliente creará su propio par de claves y, tras haberse identificado por primera vez al servidor, subirá la clave pública a este e indicará que desea autenticarse por este método. En la siguiente ocasión que el cliente vaya a autenticarse, el servidor utilizará la clave pública para generar un mensaje que enviará al cliente, si este consigue descifrarlo significa que tiene tiene en su posesión la clave privada y ha demostrado su identidad.
+
 \end{sol}
 
 \end{document}
