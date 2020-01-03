@@ -231,8 +231,7 @@ La tabla de sustitución es una matriz cuadrada de orden 16 (no simétrica), que
   \label{eq:subbytes}
   b_i' = b_i + b_{(i+4)\bmod 8} + b_{(i+5)\bmod 8} + b_{(i+6)\bmod 8} + b_{(i+7)\bmod 8} + c_i,
 \end{equation}
-donde $c_i$ es el $i$-ésimo bit del byte \{63\} ó \{01100011\} para todo $0 \leq i < 8$. 
-\item Por ultimo, se toman los bits del menos significativo al mas significativo $b'_0\hdots b'_7$ (Se le da la vuelta a la palabra).El byte $b' = b'_0\cdots b'_7$ resultante ocupará la posición $(x,y)$ de la tabla (expresado en hexadecimal).
+donde $c_i$ es el $i$-ésimo bit del byte $\{63\}$ ó $\{01100011\}$ para todo $0 \leq i < 8$, entendido como $c=c_7\cdots c_0$. El byte $b' = b'_7\cdots b'_0$ resultante ocupará la posición $(x,y)$ de la tabla, expresado en hexadecimal. Notamos que el símbolo $+$ representa la suma en GF$(2)$.
 
 \end{enumerate}
 
