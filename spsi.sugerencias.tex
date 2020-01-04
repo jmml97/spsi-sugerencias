@@ -270,8 +270,6 @@ La llegada de los criptosistemas de clave pública permite solucionar estos prob
 
 \item Es posible implementar un sistema de comunicación que garantice la \textit{autenticación} de usuarios, la \textit{integridad} de mensajes y la \textit{no repudiabilidad} mediante un protocolo de firma de mensajes. De esta forma, el receptor podrá garantizar que el mensaje no ha sido modificado y que solo puede provenir de la persona que en teoría lo ha enviado. Además, la firma depende del contenido del mensaje, por lo que nadie puede usarla con otro documento.
 
-%TODO: Deberíamos explicar cómo funciona la firma?
-
 \end{enumerate}
 \end{sol}
 
@@ -304,7 +302,6 @@ La llegada de los criptosistemas de clave pública permite solucionar estos prob
 
 \end{sol}
 
-
 \begin{ejer}
   Enumerar resumidamente las precauciones más destacables a tomar al generar un círculo de comunicación basado en RSA.
 \end{ejer}
@@ -314,7 +311,7 @@ La llegada de los criptosistemas de clave pública permite solucionar estos prob
   \begin{enumerate}
     \item El número $n$ debe superar (a comienzos del siglo XXI) los 308 dígitos para que no sea factible su factorización. Algunas implementaciones actuales de RSA emplean módulos de $617$ dígitos (2048 bits).
     \item Los primos $p$ y $q$ deben ser ambos elevados para que sea difícil aplicar algoritmos de factorización como la \href{https://en.wikipedia.org/wiki/General_number_field_sieve}{criba general del cuerpo de números}. Además, jamás deben ser elegidos de entre una lista conocida ni ser próximos el uno al otro; de lo contrario podría emplearse eficientemente el método de factorización de Fermat.
-    \item El valor de $(p-1, q-1)$ no debe ser elevado en exceso, y nunca debe ocurrir que $p-1 \ | \ q-1$. Si $(p-1, q-1)$ es muy elevado, $[p-1, q-1]$ sería pequeño en comparación con $\Phi(n)$ y factible de ser encontrado por fuerza bruta. Es indeseable también que los factores primos de $\Phi(n)$ sean pequeños.
+    \item El valor de $(p-1, q-1)$ no debe ser elevado en exceso, y nunca debe ocurrir que $p-1 \ | \ q-1$. Si $(p-1, q-1)$ es muy elevado, $[p-1, q-1]$ sería pequeño en comparación con $\Phi(n)$ y factible de ser encontrado por fuerza bruta, lo que facilitaría la obtención de $d$. Es indeseable también que los factores primos de $\Phi(n)$ sean pequeños.
     \item Para solucionar los problemas del apartado anterior, es deseable que $p$ y $q$ sean \textit{primos seguros}. Además, tanto $p-1$ como $q-1$ deben tener factores primos elevados para evitar ataques de cifrados iterados.
     \item El exponente $d$ debe ser elevado, y esta es la razón de comenzar eligiéndolo para luego determinar $e$. Así se evita que pueda ser encontrado mediante procedimientos de prueba y error.
     \item Dos usuarios nunca deben elegir el mismo módulo como parte de su clave pública. Si un tercer usuario cifra un mismo mensaje para ellos, este puede ser leído si los exponentes públicos de ambos usuarios son primos relativos.
@@ -356,6 +353,8 @@ La llegada de los criptosistemas de clave pública permite solucionar estos prob
 
   Hasta ahora no se ha encontrado ningún algoritmo que resuelva el problema del logaritmo discreto en tiempo polinómico en el tamaño de la entrada, y es de hecho considerado intratable computacionalmente.
   El problema de Diffie-Hellman es en consecuencia intratable para ciertos grupos, y en ello radica finalmente la seguridad del protocolo homónimo. Para maximizar la seguridad es recomendable que $n$ sea un \textit{primo seguro} de 512 bits o incluso de 1024 bits.
+
+    Este protocolo de intercambio de claves es susceptible de recibir un ataque por persona interpuesta (\textit{man-in-the-middle}). Una tercera persona malintencionada podría interceptar los valores públicos $y_i$ e $y_j$ y sustituirlos por otros $y'_i$ e $y'_j$ de su elección. De esta forma, si el atacante pudiera interceptar toda la comunicación entre las dos partes, podría sustituir sus propios mensajes. Este tipo de ataque puede ser frustrado añadiendo al protocolo un esquema de autenticación e identificación.
 \end{sol}
 
 \begin{ejer}
@@ -408,7 +407,7 @@ La seguridad de este criptosistema reside en la dificultad de cálculo del logar
   \begin{enumerate}
     \item Elige un primo $q$ de aproximadamente 160 bits, utilizando para ello un generador aleatorio de números y uno o varios tests de primalidad.
     \item Elige un nuevo primo $p$ congruente con $1$ módulo $q$, con aproximadamente 512 bits.
-    \item Elige $g_0$ con $1 < g_0 << p-1$ y tal que $g_0 ^{p-1/q} \not\equiv 1 \bmod p$. Llamamos $g$ al valor  $g_0 ^{p-1/q} \bmod p$. 
+    \item Elige $g_0$ con $1 < g_0 \ll p-1$ y tal que $g_0 ^{p-1/q} \not\equiv 1 \bmod p$. Llamamos $g$ al valor  $g_0 ^{p-1/q} \bmod p$.
     \item Elige un entero $x$ aleatoriamente cumpliendo $0 < x < q$, que será la clave secreta.
     \item La clave pública será $y = g^x \bmod p$.
   \end{enumerate}
