@@ -289,7 +289,7 @@ La llegada de los criptosistemas de clave pública permite solucionar estos prob
   Un ejemplo de función cuya unidireccionalidad ha sido conjeturada es $(p, q) \mapsto pq$, donde $p$ y $q$ son primos. El problema de descomponer un número en sus factores primos se conoce como \href{https://en.wikipedia.org/wiki/Integer_factorization}{problema de factorización}, y es considerado extremadamente difícil a día de hoy. Esta función es la que se utiliza para implementar el criptosistema de clave pública RSA, donde la trampa es, por ejemplo, el conocimiento de la \textit{función phi de Euler} $\Phi(pq)$.
 
   A partir de estos sistemas es posible implementar un protocolo de firma.
-  Por ejemplo, si suponemos que las funciones $E$ y $D$ son biyectivas e inversas, la firma funcionaría del siguiente modo. Sean $\{ E_a, D_a \}$ las funciones de cifrado y descifrado de Alice y $\{ E_b, D_b \}$ las correspondientes funciones de Bob. Si Alice quiere enviar a Bob un mensaje cifrado y firmado, se procede como sigue:
+  Por ejemplo, si suponemos que las funciones $E$ y $D$ son biyectivas e inversas la una de la otra, la firma funcionaría del siguiente modo. Sean $\{ E_a, D_a \}$ las funciones de cifrado y descifrado de Alice y $\{ E_b, D_b \}$ las correspondientes funciones de Bob. Si Alice quiere enviar a Bob un mensaje cifrado y firmado, se procede como sigue:
 
   \begin{enumerate}
     \item Alice cifra el mensaje con su clave privada, es decir, calcula $D_a(m)$.
@@ -330,7 +330,7 @@ La llegada de los criptosistemas de clave pública permite solucionar estos prob
   El funcionamiento para dos usuarios, que puede ser extendido a un número arbitrario de participantes, es el siguiente:
   \begin{enumerate}
     \item Ambos usuarios se ponen de acuerdo en un primo elevado $n$ y eligen un generador $g$ del grupo cíclico GF$(n)^\ast$. La pareja $\langle n, g \rangle$ no tiene por qué ser secreta.
-    \item Cada usuario genera un número aleatorio elevado \(x_i\) de forma independiente. Dicho número acuará como \textit{clave privada} y se guarda en secreto.
+    \item Cada usuario genera un número aleatorio elevado \(x_i\) de forma independiente. Dicho número actuará como \textit{clave privada} y se guarda en secreto.
     \item Cada usuario hace público el número $y_i = g^{x_i} \bmod n$, que actuará como \textit{clave pública}.
     \item Ahora ambos usuarios pueden utilizar la clave \(K = \cramped{g^{x_ix_j}} \bmod n\) para comunicarse de forma segura.
     El usuario \(i\) obtiene la clave \(K\) a partir del número público \(y_j\), realizando las operaciones \begin{align*}
@@ -422,7 +422,7 @@ La seguridad de este criptosistema reside en la dificultad de cálculo del logar
 
   La firma del mensaje sería entonces la pareja $\langle r, s \rangle$, que se envía a Bob junto al valor $h$. Si Bob quiere verificar la firma, debe hacer lo siguiente:
   \begin{enumerate}
-      \item En primer lugar, comprueba que $0 < r, s < q$. En otro caso, la firma no es válida.
+      \item En primer lugar, comprueba que $0 < r,\ s < q$. En otro caso, la firma no es válida.
       \item Calcula $w=s^{-1} \bmod q$.
       \item Calcula $u_1 = hw \bmod q$.
       \item Calcula $u_2 = rw \bmod q$.
@@ -444,7 +444,7 @@ La seguridad de este criptosistema reside en la dificultad de cálculo del logar
   \begin{enumerate}
   \item En primer lugar, se utilizan algoritmos de \textit{cifrado simétrico} para cifrar toda la comunicación durante una sesión SSH, de forma que cada sesión tenga asociada una clave de cifrado distinta. El cliente y el servidor se ponen de acuerdo para utilizar como cifrado bidireccional el realizado por algún criptosistema soportado por ambos, como puede ser AES, CAST128, Blowfish, etc.
   \item También es utilizado en varias ocasiones el \textit{cifrado asimétrico}. Por ejemplo, veremos que se utiliza durante el proceso inicial de intercambio de claves para configurar el cifrado simétrico, y como base del método de autenticación de clientes mediante pares de claves SSH.
-  \item Por último, se emplea la técnica de \textit{hashing} criptográfico como método de creación de una firma o resumen que garantize la integridad de los mensajes. Junto a cada paquete se envía un \textit{código de autenticación de mensaje basado en hash}, que permite comprobar que el mensaje está intacto y no ha sido modificado. Estos códigos se calculan a partir de la clave de sesión, del número de secuencia del paquete y del contenido del mensaje.
+  \item Por último, se emplea la técnica de \textit{hashing} criptográfico como método de creación de una firma o resumen que garantice la integridad de los mensajes. Junto a cada paquete se envía un \textit{código de autenticación de mensaje basado en hash}, que permite comprobar que el mensaje está intacto y no ha sido modificado. Estos códigos se calculan a partir de la clave de sesión, del número de secuencia del paquete y del contenido del mensaje.
   \end{enumerate}
 
   \subsubsection*{Funcionamiento}
