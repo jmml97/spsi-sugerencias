@@ -220,22 +220,22 @@ La principal debilidad del cifrado Vigenère es la naturaleza repetitiva de su c
 \end{ejer}
 
 \begin{sol}
-El algoritmo de cifrado de AES realiza en cada ronda una serie de transformaciones a nivel de bytes. La primera de estas transformaciones es \texttt{SubBytes()}, que consiste en sustituir cada byte del estado de forma no lineal e independiente según una tabla de sustitución llamada S-box.
+El algoritmo de cifrado de AES realiza en cada ronda una serie de transformaciones a nivel de \textit{bytes}. La primera de estas transformaciones es \texttt{SubBytes()}, que consiste en sustituir cada \textit{byte} del estado de forma no lineal e independiente según una tabla de sustitución llamada S-box.
 
-La tabla de sustitución es una matriz cuadrada de orden 16 (no simétrica), que contiene en cada posición $(i,j)$ un byte en hexadecimal que representa la transformación del byte $s_{ij}$ del estado. La construcción de la tabla se realiza de la siguiente forma, dado un byte de entrada $xy$ en hexadecimal:
+La tabla de sustitución es una matriz cuadrada de orden 16 (no simétrica), que contiene en cada posición $(x,y)$ un \textit{byte} en hexadecimal que representa la transformación del \textit{byte} $s_{xy}$ del estado. La construcción de la tabla se realiza de la siguiente forma, considerando $xy$ como la representación en hexadecimal de un \textit{byte}:
 
 \begin{enumerate}
-\item Si $xy = 00$, se mantiene igual. Si $xy \neq 00$, se calcula el inverso de $xy$ en GF$(2^8)$, que será otro byte $b = b_7\cdots b_0$.
-\item El bit $i$-ésimo del byte $b$, $b_i$, se transformará en $b_i'$ haciendo
+\item Si $xy = 00$, se mantiene igual. Si $xy \neq 00$, se calcula el inverso de $xy$ en GF$(2^8)$, que será otro \textit{byte} $b = b_7\cdots b_0$.
+\item El bit $i$-ésimo del \textit{byte} $b$, $b_i$, se transformará en $b_i'$ haciendo
 \begin{equation}
   \label{eq:subbytes}
   b_i' = b_i + b_{(i+4)\bmod 8} + b_{(i+5)\bmod 8} + b_{(i+6)\bmod 8} + b_{(i+7)\bmod 8} + c_i,
 \end{equation}
-donde $c_i$ es el $i$-ésimo bit del byte $\{63\}$ ó $\{01100011\}$ para todo $0 \leq i < 8$, entendido como $c=c_7\cdots c_0$. El byte $b' = b'_7\cdots b'_0$ resultante ocupará la posición $(x,y)$ de la tabla, expresado en hexadecimal. Notamos que el símbolo $+$ representa la suma en GF$(2)$.
+donde $c_i$ es el $i$-ésimo bit del \textit{byte} $\{63\}$ ó $\{01100011\}$ para todo $0 \leq i < 8$, entendido como $c=c_7\cdots c_0$. El \textit{byte} $b' = b'_7\cdots b'_0$ resultante ocupará la posición $(x,y)$ de la tabla, expresado en hexadecimal. Notamos que el símbolo $+$ representa la suma en GF$(2)$.
 
 \end{enumerate}
 
-Mencionamos también que es posible expresar el efecto de (\ref{eq:subbytes}) mediante una transformación afín aplicada a cada byte del estado (visto como vector de bits). Dicha transformación es invertible, y a la transformación resultante de aplicar la inversa seguida de tomar el inverso multiplicativo en GF$(2^8)$ la llamaremos transformación \texttt{InvSubBytes()}. Se usará para revertir los efectos de \texttt{SubBytes()} a la hora de descifrar.
+Mencionamos también que es posible expresar el efecto de (\ref{eq:subbytes}) mediante una transformación afín aplicada a cada \textit{byte} del estado (visto como vector de bits). Dicha transformación es invertible, y a la transformación resultante de aplicar la inversa seguida de tomar el inverso multiplicativo en GF$(2^8)$ la llamaremos transformación \texttt{InvSubBytes()}. Se usará para revertir los efectos de \texttt{SubBytes()} a la hora de descifrar.
 
 \textit{Nota.} Sabemos que GF$(2^8) \cong \mathbb Z_2[x] /m(x)$, donde $m(x) = x^8 + x^4 + x^3 + x + 1$. En consecuencia, podemos expresar cada elemento de GF$(2^8)$ de alguna de las siguientes formas:
 \begin{enumerate}
