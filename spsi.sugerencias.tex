@@ -327,7 +327,7 @@ La llegada de los criptosistemas de clave pública permite solucionar estos prob
 
 \begin{sol}
   El protocolo de intercambio de claves de Diffie-Hellman permite que ambas partes de una comunicación se pongan de acuerdo en una clave secreta sin tener que compartirla explícitamente a través de un canal potencialmente inseguro. Dicha clave podrá ser usada posteriormente, por ejemplo, como clave de un sistema de cifrado simétrico.
-  El funcionamiento para dos usuarios, que puede ser extendido a un número arbitrario de participantes, es el siguiente:
+  El funcionamiento para dos usuarios $i$ y $j$, que puede ser extendido a un número arbitrario de participantes, es el siguiente:
   \begin{enumerate}
     \item Ambos usuarios se ponen de acuerdo en un primo elevado $n$ y eligen un generador $g$ del grupo cíclico GF$(n)^\ast$. La pareja $\langle n, g \rangle$ no tiene por qué ser secreta.
     \item Cada usuario genera un número aleatorio elevado \(x_i\) de forma independiente. Dicho número actuará como \textit{clave privada} y se guarda en secreto.
