@@ -464,7 +464,7 @@ La seguridad de este criptosistema reside en la dificultad de cálculo del logar
 
   El método más simple para autenticar el acceso del usuario al servidor es la autenticación por contraseña, en la que el servidor simplemente solicita la contraseña de la cuenta con la que se intenta iniciar sesión. Aunque la contraseña está protegida al viajar por el túnel cifrado, las limitaciones en cuanto a longitud y complejidad de la misma hacen que este método no sea recomendado generalmente.
 
-  La alternativa más popular y recomendada es el uso de pares de claves SSH asimétricas. El cliente crea una pareja de claves pública y privada y, tras haber accedido por primera vez al servidor mediante algún otro método de autenticación, carga en este su clave pública (en un archivo llamado \verb|certified_keys|). En accesos posteriores, el procedimiento de autenticación es el siguiente:
+  La alternativa más popular y recomendada es el uso de pares de claves SSH asimétricas. El cliente crea una pareja de claves pública y privada y, tras haber accedido por primera vez al servidor mediante algún otro método de autenticación, carga en este su clave pública (en un archivo llamado \verb|authorized_keys|). En accesos posteriores, el procedimiento de autenticación es el siguiente:
 
   \begin{enumerate}
     \item El cliente envía al servidor un identificador para el par de claves con el que desea autenticarse.
