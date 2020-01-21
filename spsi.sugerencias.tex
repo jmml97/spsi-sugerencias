@@ -366,11 +366,11 @@ El criptosistema de ElGamal es un criptosistema de clave pública propuesto por 
 
 \subsubsection*{Preliminares}
 
-En primer lugar, se debe elegir un primo $p$ elevado y un elemento  $g \in$ GF$(p)^\ast$. Es preferible, aunque no absolutamente necesario, que $g$ sea un elemento primitivo de GF$(p)$, es decir, un generador del grupo cíclico GF$(p)^\ast$. Suponemos que las unidades de texto plano estarán expresadas en números de GF$(p)$, y llamamos $q = |$GF$(p)^\ast| = p -1$. Ahora, cada usuario $i$ elige aleatoriamente un valor elevado $x_i$, que será su clave privada. La clave pública será $y_i = g^{x_i} \bmod p$.
+En primer lugar, se debe elegir un primo $p$ elevado y un elemento  $g \in$ GF$(p)^\ast$. Es preferible, aunque no absolutamente necesario, que $g$ sea un elemento primitivo de GF$(p)$, es decir, un generador del grupo cíclico GF$(p)^\ast$. Suponemos que las unidades de texto plano estarán expresadas en números de GF$(p)$. Ahora, cada usuario $i$ elige aleatoriamente un valor elevado $x_i$, que será su clave privada. La clave pública será $y_i = g^{x_i} \bmod p$.
 
 \subsubsection*{Cifrando el mensaje}
 
-Supongamos que Alice quiere compartir con Bob un mensaje \(0\leq m \leq q\). Para ello, recoge la clave pública de Bob ($y_B$), elige aleatoriamente un número $x$ con $0 < x < p$, y calcula $K = y_B ^{x} \bmod p$. Finalmente envía a Bob la pareja \(c = \langle g^{x} \bmod{p}, mK \bmod p\rangle\).
+Supongamos que Alice quiere compartir con Bob un mensaje \(0\leq m < p\). Para ello, recoge la clave pública de Bob ($y_B$), elige aleatoriamente un número $x$ con $0 < x < p$, y calcula $K = y_B ^{x} \bmod p$. Finalmente envía a Bob la pareja \(c = \langle g^{x} \bmod{p}, mK \bmod p\rangle\).
 
 \subsubsection*{Descifrando el mensaje}
 
